@@ -9,41 +9,57 @@ from scipy.stats import pearsonr
 from sklearn.preprocessing import MinMaxScaler
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# 앱 설정
-st.set_page_config(page_title="AlphaChart - AI 정밀 분석", layout="wide")
+# 1. 앱 설정 (반응형 레이아웃 강화)
+st.set_page_config(
+    page_title="AlphaChart AI", 
+    page_icon="📈", 
+    layout="wide",
+    initial_sidebar_state="collapsed" # 모바일 가독성을 위해 사이드바는 접어둠
+)
 
-# 세션 상태 초기화 및 콜백 함수
+# 2. 세션 상태 초기화
 if 'selected_path' not in st.session_state:
     st.session_state.selected_path = None
 
 def select_pattern(path):
     st.session_state.selected_path = path
 
+# 3. 디자인 시스템 (모바일 최적화 및 로고 강조 CSS)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;800&display=swap');
     * { font-family: 'Pretendard', sans-serif; }
     
+    /* 로고 및 브랜드 컨테이너 (모바일 가변 패딩) */
     .brand-container {
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);
-        padding: 50px 20px; border-radius: 30px; color: white; margin-bottom: 40px;
+        background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
+        padding: 40px 15px; border-radius: 20px; color: white; margin-bottom: 25px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+    .brand-symbol { font-size: 60px; margin-bottom: 10px; }
+    .brand-title { font-size: 42px; font-weight: 800; letter-spacing: -1px; margin: 0; }
+    .brand-subtitle { font-size: 16px; opacity: 0.8; margin-top: 5px; }
+    
+    /* 모바일 세로 대응: 카드 레이아웃 */
+    .stock-card {
+        padding: 20px; border-radius: 15px; background: white; margin-bottom: 15px;
+        border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .match-badge {
+        background: #3b82f6; color: white; padding: 4px 10px; border-radius: 8px;
+        font-weight: 700; font-size: 14px;
     }
     
-    .example-container {
-        background: #f8fafc; padding: 25px; border-radius: 20px; border: 1px dashed #cbd5e1; margin-bottom: 30px;
-    }
-    .stock-card {
-        padding: 24px; border-radius: 20px; background: white; margin-bottom: 15px;
-        border: 1px solid #f1f5f9; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-    .stock-link {
-        display: inline-block; margin-top: 12px; padding: 8px 16px;
-        background-color: #3b82f6; color: white; border-radius: 10px;
-        font-size: 14px; font-weight: 600; text-decoration: none;
-    }
+    /* 메인 컨테이너 여백 최적화 */
+    .block-container { padding-top: 1.5rem !important; }
+    
+    /* 버튼 스타일 커스텀 */
+    .stButton>button { width: 100%; border-radius: 10px; font-weight: 600; }
     </style>
     """, unsafe_allow_html=True)
+
+# --- 로직 섹션 (기존 코드 유지) ---
 
 @st.cache_data
 def get_krx_list():
@@ -57,7 +73,6 @@ stock_list = get_krx_list()
 def extract_features_engine(img_input, is_file_path=False):
     try:
         if is_file_path:
-            # 한글 경로 인식을 위한 처리
             img_array = np.fromfile(img_input, np.uint8)
             img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
         else:
@@ -86,7 +101,6 @@ def extract_features_engine(img_input, is_file_path=False):
                 else: colors.append(-1)
         
         if not p_avg: return None
-        # 캔들 개수 1:1 카운팅
         diffs = np.diff(valid_x)
         candle_count = 1
         for d in diffs:
@@ -113,11 +127,19 @@ def analyze_stock(code, name, user_p_norm, n_days, target_color):
         return {'code': code, 'name': name, 'sim': (pearsonr(user_p_norm, s_res)[0]+1)*50, 'price': df_t['Close'].iloc[-1]}
     except: return None
 
-# --- UI 상단 ---
-st.markdown("""<div class="brand-container"><div class="brand-title">AlphaChart</div><div class="brand-subtitle">AI 신경망 기반 정밀 차트 패턴 분석 시스템</div></div>""", unsafe_allow_html=True)
+# --- UI 레이아웃 시작 ---
 
-st.markdown("### 💡 예시 패턴으로 바로 분석하기")
-st.markdown('<div class="example-container">', unsafe_allow_html=True)
+# 상단 브랜드 헤더 (심볼 강조)
+st.markdown("""
+    <div class="brand-container">
+        <div class="brand-symbol">📈</div>
+        <h1 class="brand-title">AlphaChart AI</h1>
+        <p class="brand-subtitle">AI 신경망 기반 정밀 차트 패턴 분석 시스템</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# 예시 패턴 섹션 (가로 배치 -> 모바일 자동 대응)
+st.markdown("### 💡 추천 예시 패턴")
 col_ex1, col_ex2 = st.columns(2)
 
 ex1_name = "장대양봉 중간 지키며 상승.jpg"
@@ -125,70 +147,88 @@ ex2_name = "하락후 바닥에서 양봉.jpg"
 
 with col_ex1:
     if os.path.exists(ex1_name):
-        st.image(ex1_name, caption="장대양봉 중간 유지 상승", use_container_width=True)
-        st.button("분석 실행 (장대양봉)", on_click=select_pattern, args=(ex1_name,))
-    else: st.warning("파일 없음")
+        st.image(ex1_name, caption="장대양봉 지지형", use_container_width=True)
+        st.button("분석 실행 (패턴 1)", key="btn_ex1", on_click=select_pattern, args=(ex1_name,))
+    else: st.info("샘플1 준비 중")
 
 with col_ex2:
     if os.path.exists(ex2_name):
-        st.image(ex2_name, caption="하락 후 바닥 양봉", use_container_width=True)
-        st.button("분석 실행 (바닥 반등)", on_click=select_pattern, args=(ex2_name,))
-    else: st.warning("파일 없음")
-st.markdown('</div>', unsafe_allow_html=True)
+        st.image(ex2_name, caption="바닥 반등형", use_container_width=True)
+        st.button("분석 실행 (패턴 2)", key="btn_ex2", on_click=select_pattern, args=(ex2_name,))
+    else: st.info("샘플2 준비 중")
 
-st.sidebar.header("🧭 분석 설정")
-search_range = st.sidebar.slider("검색 범위", 100, 3000, 1000, 100)
-uploaded_file = st.sidebar.file_uploader("이미지 업로드", type=['png', 'jpg', 'jpeg'])
+# 사이드바 설정
+st.sidebar.header("🧭 분석 제어")
+search_range = st.sidebar.slider("AI 스캔 종목 수", 100, 3000, 1000, 100)
+uploaded_file = st.sidebar.file_uploader("이미지 직접 업로드", type=['png', 'jpg', 'jpeg'])
 
-# 업로드 시 예시 선택 해제
 if uploaded_file:
     st.session_state.selected_path = None
 
-# 최종 분석 대상 결정
 input_target = uploaded_file if uploaded_file else st.session_state.selected_path
 is_path = True if (not uploaded_file and st.session_state.selected_path) else False
 
+# 분석 결과 섹션
 if input_target:
     feat = extract_features_engine(input_target, is_file_path=is_path)
     if feat:
         user_p, n_days, target_color, original_img = feat
         user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
 
-        st.info(f"✓ {n_days}거래일 패턴 분석 결과")
-        c1, c2, c3 = st.columns([1, 1, 1])
-        with c1: st.image(original_img, use_container_width=True)
+        st.markdown("---")
+        st.subheader("🎯 선택된 패턴 분석")
+        
+        # 모바일 가독성을 위해 3열 -> 모바일에서는 위아래로 쌓임
+        c1, c2, c3 = st.columns([1.2, 1, 1.2])
+        with c1: 
+            st.image(original_img, caption="원본 이미지", use_container_width=True)
         with c2:
-            fig, ax = plt.subplots(figsize=(5, 3.5))
-            ax.plot(user_p_norm, color='#3b82f6', lw=6)
+            fig, ax = plt.subplots(figsize=(5, 4))
+            ax.plot(user_p_norm, color='#3b82f6', lw=8)
             ax.axis('off')
             fig.patch.set_alpha(0)
             st.pyplot(fig)
         with c3:
-            st.success(f"**패턴 범위**: {n_days}거래일\n\n**로직**: 마지막 캔들 몸통 및 꼬리 분석\n\n**상태**: {'🔴 양봉' if target_color==1 else '🔵 음봉' if target_color==-1 else '⚫ 도지'}")
+            st.markdown(f"""
+            **분석 요약**
+            - **범위**: {n_days} 거래일 탐지
+            - **타겟**: {'🔴 양봉 마감' if target_color==1 else '🔵 음봉 마감' if target_color==-1 else '⚫ 도지 마감'}
+            - **상태**: 패턴 추출 완료
+            """)
+            if st.button("🚀 AI 통합 검색 시작", type="primary"):
+                results = []
+                prog = st.progress(0)
+                with ThreadPoolExecutor(max_workers=30) as ex:
+                    futures = [ex.submit(analyze_stock, s[0], s[1], user_p_norm, n_days, target_color) for s in stock_list[:search_range]]
+                    for i, f in enumerate(as_completed(futures)):
+                        res = f.result()
+                        if res: results.append(res)
+                        if i % 20 == 0: prog.progress((i+1)/search_range)
+                
+                results.sort(key=lambda x: x['sim'], reverse=True)
+                st.session_state.search_results = results[:15]
 
-        if st.button("🚀 AI 통합 검색 시작"):
-            results = []
-            prog = st.progress(0)
-            with ThreadPoolExecutor(max_workers=30) as ex:
-                futures = [ex.submit(analyze_stock, s[0], s[1], user_p_norm, n_days, target_color) for s in stock_list[:search_range]]
-                for i, f in enumerate(as_completed(futures)):
-                    res = f.result()
-                    if res: results.append(res)
-                    if i % 20 == 0: prog.progress((i+1)/search_range)
-            
-            results.sort(key=lambda x: x['sim'], reverse=True)
-            st.markdown("### 🏆 AI 매칭 결과")
-            for i, res in enumerate(results[:15]):
+        # 매칭 결과 표시
+        if 'search_results' in st.session_state:
+            st.markdown("### 🏆 AI 정밀 매칭 결과")
+            for i, res in enumerate(st.session_state.search_results):
                 st.markdown(f"""
                 <div class="stock-card">
-                    <table style="width:100%;">
-                        <tr>
-                            <td style="width:10%; font-size:24px; font-weight:800; color:#3b82f6;">{i+1}</td>
-                            <td style="width:40%; font-size:20px; font-weight:700;">{res['name']} <br><small>CODE: {res['code']}</small></td>
-                            <td style="width:25%; font-size:19px; font-weight:700;">{res['price']:,.0f}원</td>
-                            <td style="width:25%; text-align:right;"><span style="background:#3b82f6; color:white; padding:8px 12px; border-radius:10px;">{res['sim']:.1f}% Match</span></td>
-                        </tr>
-                    </table>
-                    <a href="https://finance.naver.com/item/main.naver?code={res['code']}" target="_blank" class="stock-link">📊 상세 차트 보기</a>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="font-size: 1.2rem; font-weight: 800; color: #3b82f6;">{i+1}. {res['name']}</span>
+                            <span style="font-size: 0.9rem; color: #64748b; margin-left: 10px;">{res['code']}</span>
+                        </div>
+                        <div class="match-badge">{res['sim']:.1f}%</div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: 1.1rem; font-weight: 700;">{res['price']:,.0f}원</div>
+                        <a href="https://finance.naver.com/item/main.naver?code={res['code']}" target="_blank" 
+                           style="color: #3b82f6; text-decoration: none; font-size: 0.9rem; font-weight: 600;">차트 상세보기 →</a>
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
+
+# 하단 푸터
+st.markdown("---")
+st.caption("© 2026 AlphaChart AI | 신경망 패턴 분석 시스템 v2.0")
