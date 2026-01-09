@@ -1,0 +1,8 @@
+streamlit
+FinanceDataReader
+pandas
+numpy
+opencv-python-headless
+matplotlib
+scipy
+scikit-learn
