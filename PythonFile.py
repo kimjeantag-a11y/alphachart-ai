@@ -22,7 +22,6 @@ if 'show_license_input' not in st.session_state:
 
 with st.sidebar:
     st.header("⚙️ Settings")
-    
     if st.session_state.is_pro:
         st.success("✅ PRO License Active")
         if st.button("Logout / Reset", use_container_width=True):
@@ -35,7 +34,6 @@ with st.sidebar:
             if st.button("👑 PRO 업그레이드", use_container_width=True):
                 st.session_state.show_license_input = True
                 st.rerun()
-        
         if st.session_state.show_license_input:
             with st.expander("🔑 라이선스 키 입력", expanded=True):
                 license_key = st.text_input("License Key", type="password", label_visibility="collapsed")
@@ -52,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v15.1")
+    st.caption("AlphaChart AI v15.2")
 
 IS_PRO = st.session_state.is_pro
 
@@ -60,9 +58,10 @@ IS_PRO = st.session_state.is_pro
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
-# --- 🎯 [고정] 패턴 DB ---
+# --- 🎯 [고정] 패턴 DB (패턴 A 파일명 수정 완료) ---
 PATTERN_DB = {
-    "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
+    # 💡 [수정 1] 사용자 파일명과 일치 ("허리 지지" -> "중간 지키며")
+    "A": {"file": "장대양봉 중간 지키며 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 양봉.jpg", "name": "B. 급락후 바닥에서 양봉", "locked": False, "type": "B"}, 
     "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
     "D": {"file": "쌍바닥(단기간).jpg", "name": "D. 쌍바닥(단기간) 🔒", "locked": not IS_PRO, "type": "Custom"},
@@ -212,7 +211,7 @@ for i, key in enumerate(keys):
         p_name = p['name'].replace("🔒", "") if IS_PRO else p['name']
         st.button(p_name, key=f"btn_{key}", use_container_width=True, on_click=update_pattern, args=(key,))
 
-# --- 📷 2. 나만의 차트 업로드 ---
+# --- 📷 2. 차트 업로드 ---
 st.markdown("### 📷 2. 또는 나만의 차트 업로드")
 uploaded_file = st.file_uploader("이미지 파일 업로드 (jpg, png)", type=['png', 'jpg', 'jpeg'], label_visibility="collapsed")
 
@@ -294,7 +293,7 @@ def analyze_stock_legacy(code, name, user_p_norm, n_days=20, market_type="KRX", 
 
 # --- 🖼️ 프리뷰 및 실행 ---
 st.markdown("---")
-# 💡 [모바일 수정 1] 컬럼 비율 변경 (1:10:1)로 모바일에서도 이미지 꽉 차게 표시
+# 💡 [모바일 최적화] 비율 1:10:1 로 이미지 크기 확보
 c_p1, c_p2, c_p3 = st.columns([1, 10, 1])
 feat_data = None
 with c_p2:
@@ -304,13 +303,8 @@ with c_p2:
     elif not sel_p_locked and os.path.exists(target_input):
         feat_data = extract_features_engine(target_input, is_file_path=True)
         with open(target_input, "rb") as f: b64 = base64.b64encode(f.read()).decode()
-        # 💡 [모바일 수정 2] 이미지 스타일: width 100%, max-height 설정으로 반응형 처리
-        st.markdown(f"""
-            <div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center; display:flex; justify-content:center;">
-                <img src="data:image/jpeg;base64,{b64}" style="width:100%; height:auto; max-height:250px; object-fit:contain;">
-            </div>
-        """, unsafe_allow_html=True)
-        
+        # 💡 [모바일 최적화] width: 100% 로 반응형 설정
+        st.markdown(f"""<div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center;"><img src="data:image/jpeg;base64,{b64}" style="width:100%; height:auto; max-height:250px; object-fit:contain;"></div>""", unsafe_allow_html=True)
         if feat_data:
             user_p, _ = feat_data
             user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
@@ -349,22 +343,12 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            # 💡 [모바일 수정 3] KRX 링크를 네이버 모바일 증권 차트로 변경
-            if market_code == "KRX": 
-                chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
-                link_text = "네이버 증권 차트 ↗"
-            elif market_code in ["NASDAQ", "NYSE"]: 
-                chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"
-                link_text = "TradingView 차트 ↗"
-            elif market_code == "TSE": 
-                chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
-                link_text = "TradingView (Japan) ↗"
-            elif market_code == "HKEX": 
-                chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
-                link_text = "TradingView (HK) ↗"
-            else: 
-                chart_url = f"https://finance.yahoo.com/quote/{res['code']}"
-                link_text = "Yahoo Finance ↗"
+            # 💡 [모바일 수정] KRX: 네이버 모바일 증권 차트 강제 연결 (m.stock.naver.com)
+            if market_code == "KRX": chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"; link_text = "네이버 증권 차트 ↗"
+            elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
+            elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
+            elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
+            else: chart_url = f"https://finance.yahoo.com/quote/{res['code']}"; link_text = "Yahoo Finance ↗"
             
             sim_color = "#b45309" if IS_PRO else "#0284c7"
             st.markdown(f"""
@@ -385,4 +369,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v15.1 | Mobile Layout & Link Fixed")
+st.caption("AlphaChart AI v15.2 | Mobile Link & Pattern A Fixed")
