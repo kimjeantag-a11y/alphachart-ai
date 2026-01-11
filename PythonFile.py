@@ -14,25 +14,51 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # 1. 앱 설정
 st.set_page_config(page_title="AlphaChart AI", page_icon="🦅", layout="wide", initial_sidebar_state="collapsed")
 
+# --- 🔐 라이선스 및 세션 관리 ---
+if 'is_pro' not in st.session_state:
+    st.session_state.is_pro = False
+if 'show_license_input' not in st.session_state:
+    st.session_state.show_license_input = False
+
+with st.sidebar:
+    st.header("⚙️ Settings")
+    
+    if st.session_state.is_pro:
+        st.success("✅ PRO License Active")
+        if st.button("Logout / Reset", use_container_width=True):
+            st.session_state.is_pro = False
+            st.session_state.show_license_input = False
+            st.rerun()
+    else:
+        st.info("현재: Free Version")
+        if not st.session_state.show_license_input:
+            if st.button("👑 PRO 업그레이드", use_container_width=True):
+                st.session_state.show_license_input = True
+                st.rerun()
+        
+        if st.session_state.show_license_input:
+            with st.expander("🔑 라이선스 키 입력", expanded=True):
+                license_key = st.text_input("License Key", type="password", label_visibility="collapsed")
+                c_btn1, c_btn2 = st.columns(2)
+                if c_btn1.button("확인", use_container_width=True):
+                    if license_key == "alpha2026": 
+                        st.session_state.is_pro = True
+                        st.session_state.show_license_input = False
+                        st.rerun()
+                    else:
+                        st.error("잘못된 키입니다.")
+                if c_btn2.button("취소", use_container_width=True):
+                    st.session_state.show_license_input = False
+                    st.rerun()
+
+    st.markdown("---")
+    st.caption("AlphaChart AI v15.1")
+
+IS_PRO = st.session_state.is_pro
+
 # --- 🎯 [설정] 심볼 파일명 ---
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
-
-# --- 🔐 라이선스 및 세션 관리 ---
-with st.sidebar:
-    st.header("⚙️ Settings")
-    license_key = st.text_input("License Key 입력", type="password")
-    
-    if license_key == "alpha2026":
-        st.session_state.is_pro = True
-        st.success("✅ PRO License Activated")
-    else:
-        st.session_state.is_pro = False
-
-    st.markdown("---")
-    st.caption("AlphaChart AI v14.4")
-
-IS_PRO = st.session_state.get("is_pro", False)
 
 # --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
@@ -70,13 +96,12 @@ st.markdown(f"""
         50% {{ transform: translateY(-15px); filter: drop-shadow(0 20px 30px rgba(56, 189, 248, 0.6)); }}
         100% {{ transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
     }}
-    /* 💡 심볼 크기 확대 (130px -> 160px) */
     .symbol-img {{ {symbol_style} width: 160px; height: 160px; object-fit: cover; margin-bottom: 15px; background: white; }}
     
     .brand-container {{
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         background: {bg_gradient};
-        padding: 60px 15px 50px 15px; /* 상단 패딩 살짝 증가 */
+        padding: 60px 15px 50px 15px;
         border-radius: 24px; color: white; margin-bottom: 1.5rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; margin-top: -60px;
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
@@ -269,7 +294,8 @@ def analyze_stock_legacy(code, name, user_p_norm, n_days=20, market_type="KRX", 
 
 # --- 🖼️ 프리뷰 및 실행 ---
 st.markdown("---")
-c_p1, c_p2, c_p3 = st.columns([1, 2, 1])
+# 💡 [모바일 수정 1] 컬럼 비율 변경 (1:10:1)로 모바일에서도 이미지 꽉 차게 표시
+c_p1, c_p2, c_p3 = st.columns([1, 10, 1])
 feat_data = None
 with c_p2:
     if uploaded_file:
@@ -278,7 +304,13 @@ with c_p2:
     elif not sel_p_locked and os.path.exists(target_input):
         feat_data = extract_features_engine(target_input, is_file_path=True)
         with open(target_input, "rb") as f: b64 = base64.b64encode(f.read()).decode()
-        st.markdown(f"""<div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center;"><img src="data:image/jpeg;base64,{b64}" style="height:220px; object-fit:contain;"></div>""", unsafe_allow_html=True)
+        # 💡 [모바일 수정 2] 이미지 스타일: width 100%, max-height 설정으로 반응형 처리
+        st.markdown(f"""
+            <div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center; display:flex; justify-content:center;">
+                <img src="data:image/jpeg;base64,{b64}" style="width:100%; height:auto; max-height:250px; object-fit:contain;">
+            </div>
+        """, unsafe_allow_html=True)
+        
         if feat_data:
             user_p, _ = feat_data
             user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
@@ -317,11 +349,22 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            if market_code == "KRX": chart_url = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
-            elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
-            elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
-            elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
-            else: chart_url = f"https://finance.yahoo.com/quote/{res['code']}"; link_text = "Yahoo Finance ↗"
+            # 💡 [모바일 수정 3] KRX 링크를 네이버 모바일 증권 차트로 변경
+            if market_code == "KRX": 
+                chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
+                link_text = "네이버 증권 차트 ↗"
+            elif market_code in ["NASDAQ", "NYSE"]: 
+                chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"
+                link_text = "TradingView 차트 ↗"
+            elif market_code == "TSE": 
+                chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
+                link_text = "TradingView (Japan) ↗"
+            elif market_code == "HKEX": 
+                chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
+                link_text = "TradingView (HK) ↗"
+            else: 
+                chart_url = f"https://finance.yahoo.com/quote/{res['code']}"
+                link_text = "Yahoo Finance ↗"
             
             sim_color = "#b45309" if IS_PRO else "#0284c7"
             st.markdown(f"""
@@ -342,4 +385,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v14.4 | Big Symbol Edition")
+st.caption("AlphaChart AI v15.1 | Mobile Layout & Link Fixed")
