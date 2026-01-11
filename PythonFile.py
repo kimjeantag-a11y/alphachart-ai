@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v15.3")
+    st.caption("AlphaChart AI v15.6")
 
 IS_PRO = st.session_state.is_pro
 
@@ -58,11 +58,11 @@ IS_PRO = st.session_state.is_pro
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
-# --- 🎯 [고정] 패턴 DB (파일명 복구 완료) ---
+# --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
-    # 💡 [수정 1] 파일명 "장대양봉 허리 지지 상승.jpg"로 원복 (PC/모바일 노출 오류 해결)
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
-    "B": {"file": "급락후 바닥에서 양봉.jpg", "name": "B. 급락후 바닥에서 양봉", "locked": False, "type": "B"}, 
+    # 💡 [수정] 파일명 및 이름 변경 ("양봉" -> "반등")
+    "B": {"file": "급락후 바닥에서 반등.jpg", "name": "B. 급락후 바닥에서 반등", "locked": False, "type": "B"}, 
     "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
     "D": {"file": "쌍바닥(단기간).jpg", "name": "D. 쌍바닥(단기간) 🔒", "locked": not IS_PRO, "type": "Custom"},
     "E": {"file": "쌍바닥(상승전 시작점).jpg", "name": "E. 쌍바닥(상승전 시작점) 🔒", "locked": not IS_PRO, "type": "Custom"},
@@ -341,8 +341,7 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            # 💡 [수정 2] 네이버 모바일 '전체화면 차트(fchart)'로 직결 (차트만 크게 보기)
-            if market_code == "KRX": chart_url = f"https://m.finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
+            if market_code == "KRX": chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"; link_text = "네이버 증권 차트 ↗"
             elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
             elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
             elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
@@ -367,4 +366,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v15.3 | Mobile Chart Direct View")
+st.caption("AlphaChart AI v15.4 | Mobile & Pattern Fix")
