@@ -14,18 +14,38 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # 1. 앱 설정
 st.set_page_config(page_title="AlphaChart AI", page_icon="🦅", layout="wide", initial_sidebar_state="collapsed")
 
+# --- 🎯 [설정] 심볼 파일명 ---
+FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
+PRO_SYMBOL_FILE = "독수리 심볼.jfif"
+
+# --- 🔐 라이선스 및 세션 관리 ---
+with st.sidebar:
+    st.header("⚙️ Settings")
+    license_key = st.text_input("License Key 입력", type="password")
+    
+    if license_key == "alpha2026":
+        st.session_state.is_pro = True
+        st.success("✅ PRO License Activated")
+    else:
+        st.session_state.is_pro = False
+
+    st.markdown("---")
+    st.caption("AlphaChart AI v14.4")
+
+IS_PRO = st.session_state.get("is_pro", False)
+
 # --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 양봉.jpg", "name": "B. 급락후 바닥에서 양봉", "locked": False, "type": "B"}, 
-    "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": True, "type": "Custom"},
-    "D": {"file": "쌍바닥(단기간).jpg", "name": "D. 쌍바닥(단기간) 🔒", "locked": True, "type": "Custom"},
-    "E": {"file": "쌍바닥(상승전 시작점).jpg", "name": "E. 쌍바닥(상승전 시작점) 🔒", "locked": True, "type": "Custom"},
-    "F": {"file": "급락후 연속 도지.jpg", "name": "F. 급락후 연속 도지 🔒", "locked": True, "type": "Custom"},
-    "G": {"file": "횡보후 급락 및 연속도지.jpg", "name": "G. 횡보후 급락 및 연속도지 🔒", "locked": True, "type": "Custom"},
-    "H": {"file": "하락 횡보, 급락후 양봉.jpg", "name": "H. 하락 횡보, 급락후 양봉 🔒", "locked": True, "type": "Custom"},
-    "I": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name": "I. 장기횡보, 급락후 바닥확인 연속캔들 🔒", "locked": True, "type": "Custom"},
-    "J": {"file": "3중바닥.jpg", "name": "J. 3중바닥 🔒", "locked": True, "type": "Custom"}
+    "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "D": {"file": "쌍바닥(단기간).jpg", "name": "D. 쌍바닥(단기간) 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "E": {"file": "쌍바닥(상승전 시작점).jpg", "name": "E. 쌍바닥(상승전 시작점) 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "F": {"file": "급락후 연속 도지.jpg", "name": "F. 급락후 연속 도지 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "G": {"file": "횡보후 급락 및 연속도지.jpg", "name": "G. 횡보후 급락 및 연속도지 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "H": {"file": "하락 횡보, 급락후 양봉.jpg", "name": "H. 하락 횡보, 급락후 양봉 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "I": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name": "I. 장기횡보, 급락후 바닥확인 연속캔들 🔒", "locked": not IS_PRO, "type": "Custom"},
+    "J": {"file": "3중바닥.jpg", "name": "J. 3중바닥 🔒", "locked": not IS_PRO, "type": "Custom"}
 }
 
 if 'selected_key' not in st.session_state:
@@ -35,54 +55,80 @@ def update_pattern(key):
     st.session_state.selected_key = key
 
 # 2. 디자인 시스템
-st.markdown("""
+theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
+bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
+symbol_style = "border: 4px solid #fbbf24; border-radius: 50%; box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);" if IS_PRO else "animation: floating 3s ease-in-out infinite;"
+
+st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;800;900&display=swap');
-    * { font-family: 'Pretendard', sans-serif; }
-    .stApp { background-color: #f8fafc; color: #1e293b; }
+    * {{ font-family: 'Pretendard', sans-serif; }}
+    .stApp {{ background-color: #f8fafc; color: #1e293b; }}
     
-    @keyframes floating {
-        0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }
-        50% { transform: translateY(-15px) scale(1.05); filter: drop-shadow(0 20px 30px rgba(56, 189, 248, 0.6)); }
-        100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }
-    }
-    .moving-symbol { animation: floating 3s ease-in-out infinite; width: 130px; margin-bottom: 10px; }
+    @keyframes floating {{
+        0% {{ transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
+        50% {{ transform: translateY(-15px); filter: drop-shadow(0 20px 30px rgba(56, 189, 248, 0.6)); }}
+        100% {{ transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
+    }}
+    /* 💡 심볼 크기 확대 (130px -> 160px) */
+    .symbol-img {{ {symbol_style} width: 160px; height: 160px; object-fit: cover; margin-bottom: 15px; background: white; }}
     
-    .brand-container {
+    .brand-container {{
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
-        padding: 50px 15px; border-radius: 24px; color: white; margin-bottom: 1.5rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.15); text-align: center; margin-top: -60px;
-    }
-    .upgrade-pro-btn {
+        background: {bg_gradient};
+        padding: 60px 15px 50px 15px; /* 상단 패딩 살짝 증가 */
+        border-radius: 24px; color: white; margin-bottom: 1.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; margin-top: -60px;
+        border: {'2px solid #fbbf24' if IS_PRO else 'none'};
+    }}
+    
+    .pro-badge {{ background: #fbbf24; color: black; font-weight: 900; padding: 2px 8px; border-radius: 4px; font-size: 14px; vertical-align: middle; margin-left: 10px; }}
+    
+    .upgrade-pro-btn {{
         display: inline-block; padding: 15px 50px; margin-top: 25px;
         background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
         color: #000 !important; font-weight: 900; font-size: 20px;
         text-decoration: none; border-radius: 50px; border: 2px solid #ffffff;
         transition: transform 0.2s;
-    }
-    .upgrade-pro-btn:hover { transform: scale(1.05); }
+    }}
+    .upgrade-pro-btn:hover {{ transform: scale(1.05); }}
     
-    .mission-box { background: white; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; line-height: 1.8; color: #334155; font-size: 15px; }
-    .mission-highlight { color: #0284c7; font-weight: 800; }
-    .pattern-info { font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid #0284c7; margin-bottom: 20px; }
-    .result-card { padding: 15px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-    .chart-link { display: inline-block; padding: 5px 12px; background: #0284c7; color: white !important; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; margin-top: 5px; }
-    .locked-card { padding: 20px; border-radius: 12px; background: #fffbeb; border: 2px dashed #fbbf24; text-align: center; color: #b45309; font-weight: bold; margin-top: 10px; }
+    .mission-box {{ background: white; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; line-height: 1.8; color: #334155; font-size: 15px; }}
+    .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
+    .pattern-info {{ font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
+    .result-card {{ padding: 15px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }}
+    .chart-link {{ display: inline-block; padding: 5px 12px; background: {'#b45309' if IS_PRO else '#0284c7'}; color: white !important; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; margin-top: 5px; }}
+    .locked-card {{ padding: 20px; border-radius: 12px; background: #fffbeb; border: 2px dashed #fbbf24; text-align: center; color: #b45309; font-weight: bold; margin-top: 10px; }}
     </style>
 """, unsafe_allow_html=True)
 
 # 3. 로고 및 헤더
-st.markdown(f"""
+def get_img_tag(path_or_url, is_local=False):
+    if is_local and os.path.exists(path_or_url):
+        with open(path_or_url, "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        return f"data:image/jpeg;base64,{data}"
+    return path_or_url
+
+if IS_PRO:
+    symbol_src = get_img_tag(PRO_SYMBOL_FILE, is_local=True)
+    header_html = f"""
     <div class="brand-container">
-        <img src="https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png" class="moving-symbol">
+        <img src="{symbol_src}" class="symbol-img">
+        <div style="font-size: 36px; font-weight: 900; color: white; letter-spacing: -1px;">AlphaChart AI <span class="pro-badge">PRO</span></div>
+        <div style="font-size: 15px; color: #fbbf24; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGANGER</div>
+    </div>"""
+else:
+    header_html = f"""
+    <div class="brand-container">
+        <img src="{FREE_SYMBOL_URL}" class="symbol-img">
         <div style="font-size: 36px; font-weight: 900; color: white; letter-spacing: -1px;">AlphaChart AI</div>
         <div style="font-size: 15px; color: #38bdf8; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGANGER</div>
         <a href="https://your-payment-link.com" target="_blank" class="upgrade-pro-btn">👑 PRO 버전 보기 / 업그레이드</a>
-    </div>
-""", unsafe_allow_html=True)
+    </div>"""
+st.markdown(header_html, unsafe_allow_html=True)
 
-# 4. [고정] 핵심 설명문
+# 4. 핵심 설명문
 st.markdown(f"""
     <div class="mission-box">
         오랜 주식 거래의 역사를 볼 때, 캔들의 단순한 형태보다는 수거래일 동안의 <span class="mission-highlight">추세와 마지막 몇개의 캔들 형태를 함께 보는 것</span>이 중요하다는 사실이 수많은 연구자와 투자자들로부터 검증되어 왔습니다.<br><br>
@@ -111,9 +157,14 @@ def get_stock_list_info(market):
 
 stock_data = get_stock_list_info(market_code)
 total_count = len(stock_data)
+
 with c_m2:
-    st.slider(f"검색 범위 제한 (전체 {total_count:,}개 중)", 10, total_count, 300, disabled=True, label_visibility="collapsed")
-    st.caption(f"🔒 무료 버전은 전종목 중 300개만 스캔 가능")
+    if IS_PRO:
+        limit_val = st.slider(f"검색 범위 제한 (전체 {total_count:,}개 중)", 10, total_count, min(1000, total_count), label_visibility="collapsed")
+        st.success(f"✅ PRO 활성화: {limit_val}개 정밀 스캔")
+    else:
+        limit_val = st.slider(f"검색 범위 제한 (전체 {total_count:,}개 중)", 10, total_count, 300, disabled=True, label_visibility="collapsed")
+        st.caption(f"🔒 무료 버전은 전종목 중 300개만 스캔 가능")
 
 # --- 🎯 상세 필터 설정 ---
 with st.expander("🎯 상세 필터 설정 (눌러서 열기)"):
@@ -122,8 +173,7 @@ with st.expander("🎯 상세 필터 설정 (눌러서 열기)"):
     only_doji = c_f2.checkbox("✅ 도지(십자가)만 보기", value=False)
 
 # --- 💡 패턴 섹션 ---
-st.markdown("### 💡 1. AI 추천 패턴 선택")
-# [수정 완료] 설명문 문구 수정
+st.markdown("### 💡 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>", unsafe_allow_html=True)
 st.markdown("""<div class="pattern-info">
 이 패턴들은 상승 지속형 2개, 하락에서 반등형 8개이며 내일 또는 모레 매수해도 단타나 스윙으로 성공할 확률이 높은 대표적인 모델입니다. 단, 기업가치, 거래량, 뉴스, 공시 등 내재가치와 외부환경은 매매 전에 함께 고려해야 할 것입니다. 물론, 복잡한 내재와 외부를 고려하지 않고 그냥 매수해도 안전할 확률이 높은 편이지만 돌다리도 두드리고 건널 필요는 있겠지요. 자 이제, 도플갱어를 찾은 후 최종 선택은 여러분의 몫입니다.
 </div>""", unsafe_allow_html=True)
@@ -134,7 +184,8 @@ for i, key in enumerate(keys):
     target_col = cols1[i] if i < 5 else cols2[i-5]
     with target_col:
         p = PATTERN_DB[key]
-        st.button(p['name'], key=f"btn_{key}", use_container_width=True, on_click=update_pattern, args=(key,))
+        p_name = p['name'].replace("🔒", "") if IS_PRO else p['name']
+        st.button(p_name, key=f"btn_{key}", use_container_width=True, on_click=update_pattern, args=(key,))
 
 # --- 📷 2. 나만의 차트 업로드 ---
 st.markdown("### 📷 2. 또는 나만의 차트 업로드")
@@ -151,7 +202,7 @@ else:
     sel_p = PATTERN_DB[sel_key]
     target_input = sel_p['file']
     is_path_mode = True
-    sel_p_name = sel_p['name']
+    sel_p_name = sel_p['name'].replace("🔒", "")
     sel_p_type = sel_p.get('type', 'Custom')
     sel_p_locked = sel_p['locked']
 
@@ -227,17 +278,16 @@ with c_p2:
     elif not sel_p_locked and os.path.exists(target_input):
         feat_data = extract_features_engine(target_input, is_file_path=True)
         with open(target_input, "rb") as f: b64 = base64.b64encode(f.read()).decode()
-        st.markdown(f"""<div style="border:2px solid #0284c7; border-radius:15px; overflow:hidden; text-align:center;"><img src="data:image/jpeg;base64,{b64}" style="height:220px; object-fit:contain;"></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center;"><img src="data:image/jpeg;base64,{b64}" style="height:220px; object-fit:contain;"></div>""", unsafe_allow_html=True)
         if feat_data:
             user_p, _ = feat_data
             user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
             fig, ax = plt.subplots(figsize=(4, 1.5))
-            ax.plot(user_p_norm, color='#0284c7', lw=3)
+            ax.plot(user_p_norm, color=theme_color, lw=3)
             ax.axis('off'); fig.patch.set_alpha(0)
             st.pyplot(fig)
     elif sel_p_locked: st.warning("🔒 PRO 전용 모델입니다.")
 
-# 💡 [수정 완료] 버튼 라벨 포맷팅 (대괄호 + 이름)
 clean_name = sel_p_name.split('. ', 1)[-1] if '. ' in sel_p_name else sel_p_name
 button_label = f"🚀 [{clean_name}] 분석 시작"
 
@@ -247,12 +297,13 @@ if st.button(button_label, type="primary", use_container_width=True):
     elif not feat_data:
         st.error("이미지를 분석할 수 없습니다. 파일을 확인해 주세요.")
     else:
-        st.info("최적의 도플갱어 종목을 스캔 중입니다... (전종목 중 300개)")
+        info_msg = f"({limit_val}개 정밀 스캔)" if IS_PRO else "(전종목 중 300개)"
+        st.info(f"최적의 도플갱어 종목을 스캔 중입니다... {info_msg}")
         progress_bar = st.progress(0)
         user_p, _ = feat_data
         user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
         results = []
-        target_stocks = stock_data[:300]
+        target_stocks = stock_data[:limit_val]
         total_scan = len(target_stocks)
         with ThreadPoolExecutor(max_workers=30) as ex:
             futures = [ex.submit(analyze_stock_legacy, s[0], s[1], user_p_norm, 20, market_code, only_bullish, only_doji, sel_p_type) for s in target_stocks]
@@ -261,14 +312,18 @@ if st.button(button_label, type="primary", use_container_width=True):
                 if res: results.append(res)
                 progress_bar.progress((idx + 1) / total_scan)
         results.sort(key=lambda x: x['sim'], reverse=True)
-        st.markdown("### 🏆 분석 결과 (Top 5)")
+        
+        show_count = 10 if IS_PRO else 5
+        st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
-        for i, res in enumerate(results[:5]):
+        for i, res in enumerate(results[:show_count]):
             if market_code == "KRX": chart_url = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
             elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
             elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
             elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
             else: chart_url = f"https://finance.yahoo.com/quote/{res['code']}"; link_text = "Yahoo Finance ↗"
+            
+            sim_color = "#b45309" if IS_PRO else "#0284c7"
             st.markdown(f"""
             <div class="result-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -278,14 +333,13 @@ if st.button(button_label, type="primary", use_container_width=True):
                         <a href="{chart_url}" target="_blank" class="chart-link">{link_text}</a>
                     </div>
                     <div style="text-align:right;">
-                        <span style="font-size:22px; font-weight:900; color:#0284c7;">{res['sim']:.1f}%</span><br>
+                        <span style="font-size:22px; font-weight:900; color:{sim_color};">{res['sim']:.1f}%</span><br>
                         <span style="font-size:11px; color:#94a3b8;">유사도</span>
                     </div>
                 </div>
             </div>
             """, unsafe_allow_html=True)
-        
-        if len(results) > 5:
+        if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v13.6 | Final Polish & Text Correction")
+st.caption("AlphaChart AI v14.4 | Big Symbol Edition")
