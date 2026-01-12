@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v17.1")
+    st.caption("AlphaChart AI v17.2")
 
 IS_PRO = st.session_state.is_pro
 
@@ -371,11 +371,11 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
             
-            # 💡 [최종 수정] 모바일/PC 버튼 모두 'fchart.naver' (차트 직결 링크) 사용
-            # PC용은 회색, 모바일용은 초록색으로 구분하지만 목적지는 '차트 only'로 통일
+            # 💡 [핵심 수정] 링크 주소 정상화 (PC는 fchart, 모바일은 m.stock.../chart)
             if market_code == "KRX":
-                chart_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
-                links_html = f'<div class="btn-row"><a href="{chart_link}" target="_blank" class="custom-btn btn-pc">💻 PC용 차트</a><a href="{chart_link}" target="_blank" class="custom-btn btn-mo">📱 모바일용 차트</a></div>'
+                pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
+                mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
+                links_html = f'<div class="btn-row"><a href="{pc_link}" target="_blank" class="custom-btn btn-pc">💻 PC용 차트</a><a href="{mo_link}" target="_blank" class="custom-btn btn-mo">📱 모바일용 차트</a></div>'
             
             elif market_code in ["NASDAQ", "NYSE"]:
                 link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
@@ -406,4 +406,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v17.1 | Mobile Link Fix")
+st.caption("AlphaChart AI v17.2 | Fixed Mobile Links")
