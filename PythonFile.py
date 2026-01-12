@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v16.2")
+    st.caption("AlphaChart AI v16.3")
 
 IS_PRO = st.session_state.is_pro
 
@@ -120,14 +120,29 @@ st.markdown(f"""
     .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
     .pattern-info {{ font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
     
-    .result-card {{ padding: 15px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }}
+    /* 💡 [레이아웃 수정] 결과 카드 내부 정리 */
+    .result-card {{ 
+        padding: 18px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 12px; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
+    }}
+    .stock-info {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }}
+    .stock-name {{ font-weight: 900; font-size: 19px; color: #0f172a; }}
+    .stock-code {{ font-size: 13px; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }}
+    .sim-score {{ font-size: 20px; font-weight: 900; color: {'#b45309' if IS_PRO else '#0284c7'}; }}
     
-    /* 💡 [UI 개선] 버튼형 링크 스타일 */
-    .link-btn {{ display: inline-block; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; margin-right: 5px; margin-top: 5px; transition: 0.2s; }}
-    .link-btn-pc {{ background: #e2e8f0; color: #475569 !important; border: 1px solid #cbd5e1; }}
-    .link-btn-pc:hover {{ background: #cbd5e1; }}
-    .link-btn-mo {{ background: {theme_color}; color: {'black' if IS_PRO else 'white'} !important; border: 1px solid {theme_color}; }}
-    
+    /* 💡 [버튼 디자인] PC/모바일 구분 명확히 */
+    .btn-row {{ display: flex; gap: 8px; }}
+    .link-btn {{ 
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 8px 14px; border-radius: 8px; text-decoration: none; 
+        font-size: 13px; font-weight: bold; transition: 0.2s; border: none;
+    }}
+    .btn-pc {{ background: #f1f5f9; color: #475569 !important; border: 1px solid #cbd5e1; }}
+    .btn-pc:hover {{ background: #e2e8f0; }}
+    .btn-mo {{ background: #03c75a; color: white !important; /* 네이버 그린 */ }}
+    .btn-mo:hover {{ background: #02b351; }}
+    .btn-global {{ background: {theme_color}; color: {'black' if IS_PRO else 'white'} !important; }}
+
     .locked-card {{ padding: 20px; border-radius: 12px; background: #fffbeb; border: 2px dashed #fbbf24; text-align: center; color: #b45309; font-weight: bold; margin-top: 10px; }}
     </style>
 """, unsafe_allow_html=True)
@@ -179,6 +194,7 @@ with c_m1:
 def get_stock_list_info(market):
     try:
         df = fdr.StockListing(market)
+        # 시가총액 정렬 (우량주 우선 검색)
         if market == 'KRX' and 'Marcap' in df.columns:
             df = df.sort_values(by='Marcap', ascending=False)
         elif 'Market Cap' in df.columns:
@@ -353,10 +369,13 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
             
-            # 💡 [핵심] 1. PC용(팝업), 2. 모바일용(앱연동/차트탭) 링크 분리 생성
-            if market_code == "KRX": 
+            # 💡 [핵심] 링크 전략 수정
+            # 1. PC: fchart.naver (팝업형 차트) -> 가장 깔끔함
+            # 2. Mobile: m.stock.naver.../chart (모바일 차트탭) -> 앱 느낌
+            if market_code == "KRX":
                 pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
                 mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
+                # 💡 해외주식은 TradingView 하나로 통일 (가장 완벽함)
             elif market_code in ["NASDAQ", "NYSE"]:
                 pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
             elif market_code == "TSE":
@@ -366,35 +385,33 @@ if st.button(button_label, type="primary", use_container_width=True):
             else:
                 pc_link = mo_link = f"https://finance.yahoo.com/quote/{res['code']}"
             
-            sim_color = "#b45309" if IS_PRO else "#0284c7"
-            
-            # 💡 [UI] 두 개의 버튼을 나란히 배치 (PC 차트 / 모바일 차트)
-            # KRX(국내)일 때만 분리해서 보여주고, 해외는 하나로 통일
-            links_html = ""
+            # 💡 [UI 개선] 버튼 HTML 생성
             if market_code == "KRX":
                 links_html = f"""
-                    <a href="{pc_link}" target="_blank" class="link-btn link-btn-pc">🖥️ PC 차트</a>
-                    <a href="{mo_link}" target="_blank" class="link-btn link-btn-mo">📱 모바일 차트</a>
+                <div class="btn-row">
+                    <a href="{pc_link}" target="_blank" class="link-btn btn-pc">🖥️ PC 차트</a>
+                    <a href="{mo_link}" target="_blank" class="link-btn btn-mo">📱 모바일 차트</a>
+                </div>
                 """
             else:
-                links_html = f"""<a href="{pc_link}" target="_blank" class="link-btn link-btn-mo">📈 차트 보기</a>"""
+                links_html = f"""
+                <a href="{pc_link}" target="_blank" class="link-btn btn-global">📈 차트 보기</a>
+                """
 
             st.markdown(f"""
             <div class="result-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="stock-info">
                     <div>
-                        <span style="font-weight:900; font-size:18px; color:#0f172a;">{res['name']}</span> 
-                        <span style="color:#64748b; font-size:13px;">({res['code']})</span><br>
-                        {links_html}
+                        <span class="stock-name">{res['name']}</span>
+                        <span class="stock-code">{res['code']}</span>
                     </div>
-                    <div style="text-align:right;">
-                        <span style="font-size:22px; font-weight:900; color:{sim_color};">{res['sim']:.1f}%</span><br>
-                        <span style="font-size:11px; color:#94a3b8;">유사도</span>
-                    </div>
+                    <div class="sim-score">{res['sim']:.1f}%</div>
                 </div>
+                {links_html}
             </div>
             """, unsafe_allow_html=True)
+            
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v16.2 | Dual Link & Full Fix")
+st.caption("AlphaChart AI v16.3 | Mobile/PC Links Separated")
