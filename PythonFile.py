@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v16.0")
+    st.caption("AlphaChart AI v16.1")
 
 IS_PRO = st.session_state.is_pro
 
@@ -60,6 +60,7 @@ PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
+    # 💡 [확인] 사용자 파일명: "장대양봉 허리 지지 상승.jpg"
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name": "B. 급락후 바닥에서 반등", "locked": False, "type": "B"}, 
     "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
@@ -172,8 +173,7 @@ with c_m1:
 def get_stock_list_info(market):
     try:
         df = fdr.StockListing(market)
-        # 💡 [핵심 수정] 시가총액(Marcap/Market Cap) 기준 내림차순 정렬 부활!
-        # 이렇게 해야 "상위 300개"를 잘랐을 때 우량주가 선택되어 결과가 0개가 되는 현상을 막을 수 있습니다.
+        # 💡 [핵심] 무료 버전 결과 수 확보를 위한 시가총액 정렬 부활
         if market == 'KRX' and 'Marcap' in df.columns:
             df = df.sort_values(by='Marcap', ascending=False)
         elif 'Market Cap' in df.columns:
@@ -193,7 +193,7 @@ with c_m2:
         limit_val = st.slider(f"검색 범위 제한 (전체 {total_count:,}개 중)", 10, total_count, min(1000, total_count), label_visibility="collapsed")
         st.success(f"✅ PRO 활성화: {limit_val}개 정밀 스캔")
     else:
-        # 문구 수정: "시가총액 상위 300개"로 명확히 안내
+        # 문구 수정: 정렬 기준 명시
         limit_val = st.slider(f"검색 범위 제한 (시가총액 상위 {total_count:,}개 중)", 10, total_count, 300, disabled=True, label_visibility="collapsed")
         st.caption(f"🔒 무료 버전은 시가총액 상위 300개만 스캔 가능")
 
@@ -348,9 +348,9 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            # 💡 [핵심 수정] 네이버 모바일 '차트 전용' 페이지로 연결 (m.stock.../chart)
-            # 이 주소는 PC에서도 깔끔한 차트만 뜨고, 모바일에서는 앱처럼 차트탭이 바로 열립니다.
-            if market_code == "KRX": chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"; link_text = "네이버 증권 차트 ↗"
+            # 💡 [핵심 수정] 네이버 '차트 전용 팝업' 주소로 통일 (fchart.naver)
+            # 이 주소는 PC/모바일 모두에서 군더더기 없이 '차트만' 띄워줍니다.
+            if market_code == "KRX": chart_url = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
             elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
             elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
             elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
@@ -375,4 +375,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v16.0 | Mobile/PC Link Fix & Cap Sort")
+st.caption("AlphaChart AI v16.1 | Final Chart Link & Sort Fix")
