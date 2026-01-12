@@ -3,6 +3,7 @@ finance-datareader
 pandas
 numpy
 opencv-python-headless
-matplotlib
 scipy
 scikit-learn
+matplotlib
+st-gsheets-connection
