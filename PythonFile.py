@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v16.5")
+    st.caption("AlphaChart AI v16.6")
 
 IS_PRO = st.session_state.is_pro
 
@@ -373,29 +373,26 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
             
-            # 💡 [핵심] 반응형 링크 생성 로직
-            # KRX: PC용/모바일용 링크 2개를 생성하고 CSS로 하나만 보여줌
+            # 💡 [핵심] HTML 렌더링 오류 수정: f-string 내 공백/줄바꿈 제거
+            # KRX는 반응형 링크 (PC/Mobile 분기)
             if market_code == "KRX":
                 pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
                 mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
-                links_html = f'''
-                <a href="{pc_link}" target="_blank" class="custom-btn link-pc">📈 차트 보기</a>
-                <a href="{mo_link}" target="_blank" class="custom-btn link-mo">📈 차트 보기</a>
-                '''
+                links_html = f'<a href="{pc_link}" target="_blank" class="custom-btn link-pc">📈 차트 보기</a><a href="{mo_link}" target="_blank" class="custom-btn link-mo">📈 차트 보기</a>'
             
-            # 해외: TradingView 등으로 통일 (반응형 필요 없음)
+            # 해외는 단일 링크
             elif market_code in ["NASDAQ", "NYSE"]:
                 link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
-                links_html = f'''<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'''
+                links_html = f'<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'
             elif market_code == "TSE":
                 link = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
-                links_html = f'''<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'''
+                links_html = f'<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'
             elif market_code == "HKEX":
                 link = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
-                links_html = f'''<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'''
+                links_html = f'<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'
             else:
                 link = f"https://finance.yahoo.com/quote/{res['code']}"
-                links_html = f'''<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'''
+                links_html = f'<a href="{link}" target="_blank" class="custom-btn">📈 차트 보기</a>'
 
             st.markdown(f"""
             <div class="result-card">
@@ -413,4 +410,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v16.5 | Responsive One-Button Link")
+st.caption("AlphaChart AI v16.6 | Final Rendering Fix")
