@@ -20,7 +20,7 @@ if 'is_pro' not in st.session_state:
 if 'show_license_input' not in st.session_state:
     st.session_state.show_license_input = False
 if 'detected_period' not in st.session_state:
-    st.session_state.detected_period = 20
+    st.session_state.detected_period = 20  # 기본값
 
 with st.sidebar:
     st.header("⚙️ Settings")
@@ -58,7 +58,7 @@ with st.sidebar:
         st.warning(f"⚠️ {debug_code} 종목을 강제로 추적합니다.")
 
     st.markdown("---")
-    st.caption("AlphaChart AI v19.1")
+    st.caption("AlphaChart AI v20.7")
 
 IS_PRO = st.session_state.is_pro
 
@@ -70,18 +70,22 @@ PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name": "B. 급락후 바닥에서 반등", "locked": False, "type": "B"}, 
-    "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "D": {"file": "쌍바닥(단기간).jpg", "name": "D. 쌍바닥(단기간) 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "E": {"file": "쌍바닥(상승전 시작점).jpg", "name": "E. 쌍바닥(상승전 시작점) 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "F": {"file": "급락후 연속 도지.jpg", "name": "F. 급락후 연속 도지 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "G": {"file": "횡보후 급락 및 연속도지.jpg", "name": "G. 횡보후 급락 및 연속도지 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "H": {"file": "하락 횡보, 급락후 양봉.jpg", "name": "H. 하락 횡보, 급락후 양봉 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "I": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name": "I. 장기횡보, 급락후 바닥확인 연속캔들 🔒", "locked": not IS_PRO, "type": "Custom"},
-    "J": {"file": "3중바닥.jpg", "name": "J. 3중바닥 🔒", "locked": not IS_PRO, "type": "Custom"}
-}
-
+    "C": {"file": "큰하락 후 정배열 상승1파(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열 상승1파\n(컵위드핸들)", "locked": False, "type": "Custom"},
+    "D": {"file": "큰하락 후 정배열 상승2파(컵위드핸들).jpg", "name": "D. 큰하락 후 정배열 상승2파\n(컵위드핸들)", "locked": not IS_PRO, "type": "Custom"},
+    "E": {"file": "큰하락 후 정배열 상승3파(컵위드핸들).jpg", "name": "E. 큰하락 후 정배열 상승3파\n(컵위드핸들)", "locked": not IS_PRO, "type": "Custom"},
+    "F": {"file": "적당한 하락 후 정배열 상승(컵위드핸들2형).jpg", "name": "F. 적당한 하락 후 정배열 상승\n(컵위드핸들2형)", "locked": not IS_PRO, "type": "Custom"},
+    "G": {"file": "적당한 하락 후 정배열 상승2(컵위드핸들2형).jpg", "name": "G. 적당한 하락 후 정배열 상승2\n(컵위드핸들2형)", "locked": not IS_PRO, "type": "Custom"},
+    "H": {"file": "쌍바닥(단기간).jpg", "name": "H. 쌍바닥(단기간)", "locked": not IS_PRO, "type": "Custom"},
+    "I": {"file": "쌍바닥(상승전 시작점).jpg", "name": "I. 쌍바닥(상승전 시작점)", "locked": not IS_PRO, "type": "Custom"},
+    "J": {"file": "급락후 연속 도지.jpg", "name": "J. 급락후 연속 도지", "locked": not IS_PRO, "type": "Custom"},
+    "K": {"file": "횡보후 급락 및 연속도지.jpg", "name": "K. 횡보후 급락 및 연속도지", "locked": not IS_PRO, "type": "Custom"},
+    "L": {"file": "하락 횡보, 급락후 양봉.jpg", "name": "L. 하락 횡보, 급락후 양봉", "locked": not IS_PRO, "type": "Custom"},
+    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name": "M. 장기횡보, 급락후\n바닥확인 연속캔들", "locked": not IS_PRO, "type": "Custom"},
+    "N": {"file": "3중바닥.jpg", "name": "N. 3중바닥", "locked": not IS_PRO, "type": "Custom"}
+}    
+    
 if 'selected_key' not in st.session_state:
-    st.session_state.selected_key = "B"
+    st.session_state.selected_key = "A"
 
 def update_pattern(key):
     st.session_state.selected_key = key
@@ -89,18 +93,20 @@ def update_pattern(key):
 # 2. 디자인 시스템
 theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
 bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
-symbol_style = "border: 4px solid #fbbf24; border-radius: 50%; box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);" if IS_PRO else "animation: floating 3s ease-in-out infinite;"
 
+symbol_style = "border: 4px solid #fbbf24; border-radius: 50%; box-shadow: 0 0 25px rgba(251, 191, 36, 0.6); animation: dynamic-pulse 2s infinite;" if IS_PRO else "animation: dynamic-pulse 2.5s infinite;"
+
+# 💡 [CSS 수정] .mission-box 폰트 17px, .pattern-info 16px
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;800;900&display=swap');
     * {{ font-family: 'Pretendard', sans-serif; }}
     .stApp {{ background-color: #f8fafc; color: #1e293b; }}
     
-    @keyframes floating {{
-        0% {{ transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
-        50% {{ transform: translateY(-15px); filter: drop-shadow(0 20px 30px rgba(56, 189, 248, 0.6)); }}
-        100% {{ transform: translateY(0px); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
+    @keyframes dynamic-pulse {{
+        0% {{ transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
+        50% {{ transform: translateY(-8px) scale(1.03); filter: drop-shadow(0 15px 25px rgba(56, 189, 248, 0.7)); }}
+        100% {{ transform: translateY(0px) scale(1); filter: drop-shadow(0 5px 15px rgba(56, 189, 248, 0.4)); }}
     }}
     .symbol-img {{ {symbol_style} width: 160px; height: 160px; object-fit: cover; margin-bottom: 15px; background: white; }}
     
@@ -111,6 +117,18 @@ st.markdown(f"""
         border-radius: 24px; color: white; margin-bottom: 1.5rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; margin-top: -60px;
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
+    }}
+    
+    div.stButton > button {{
+        width: 100%;
+        min-height: 4.5rem;
+        height: auto;
+        white-space: pre-wrap !important;
+        word-wrap: break-word;
+        line-height: 1.4 !important;
+        padding: 8px 5px !important;
+        vertical-align: middle;
+        font-size: 14px !important;
     }}
     
     .pro-badge {{ background: #fbbf24; color: black; font-weight: 900; padding: 2px 8px; border-radius: 4px; font-size: 14px; vertical-align: middle; margin-left: 10px; }}
@@ -124,9 +142,15 @@ st.markdown(f"""
     }}
     .upgrade-pro-btn:hover {{ transform: scale(1.05); }}
     
-    .mission-box {{ background: white; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; line-height: 1.8; color: #334155; font-size: 15px; }}
+    .mission-box {{ 
+        background: white; padding: 25px; border-radius: 15px; 
+        border: 1px solid #e2e8f0; margin-bottom: 1.5rem; 
+        line-height: 1.8; color: #334155; 
+        font-size: 17px; /* 폰트 사이즈 확대 */
+    }}
     .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
-    .pattern-info {{ font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
+    
+    .pattern-info {{ font-size: 16px; color: #334155; line-height: 1.7; background: #f1f5f9; padding: 20px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
     
     .result-card {{ 
         padding: 18px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 12px; 
@@ -137,7 +161,6 @@ st.markdown(f"""
     .stock-code {{ font-size: 13px; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }}
     .sim-score {{ font-size: 20px; font-weight: 900; color: {'#b45309' if IS_PRO else '#0284c7'}; }}
     
-    /* 버튼 스타일 */
     .btn-row {{ display: flex; gap: 8px; flex-wrap: wrap; }}
     .custom-btn {{ 
         display: inline-flex; align-items: center; justify-content: center;
@@ -183,12 +206,16 @@ else:
     </div>"""
 st.markdown(header_html, unsafe_allow_html=True)
 
-# 4. 핵심 설명문
+# 4. 핵심 설명문 (수정됨)
 st.markdown(f"""
     <div class="mission-box">
         오랜 주식 거래의 역사를 볼 때, 캔들의 단순한 형태보다는 수거래일 동안의 <span class="mission-highlight">추세와 마지막 몇개의 캔들 형태를 함께 보는 것</span>이 중요하다는 사실이 수많은 연구자와 투자자들로부터 검증되어 왔습니다.<br><br>
-        이러한 과거의 패턴을 통한 미래의 패턴 예측, 그 중에서도 우리는 오늘까지의 차트를 보고 내일의 캔들 형태와 방향을 알고 싶습니다. 그래서 그동안 일일이 상장된 모든 종목을 찾아서 내가 원하는 차트와 유사한 종목을 찾고, 증권사 PC 프로그램을 통해 원하는 그림을 그리거나 조건을 입력해서 검색해 왔죠. 그러나 무겁고 불편하고 부정확했습니다.<br><br>
-        이제 <span class="mission-highlight">AlphaChart AI</span>가 몇 분만에 도플갱어 종목들을 찾아줄 수 있습니다. 또, 그동안 차트 매매의 대가들이 정립해 놓은 검증된 패턴들을 기본 장착하여 사용자가 가져온 차트 업로드 없이도 바로 내일이나 모레 살만한 종목 후보군을 찾을 수 있게 되었습니다. 차트 매매를 주로 하시는 데이 트레이더, 기업가치와 함께 차트를 같이 보시는 단중기 트레이더 모두 AlphaChart AI를 통해 <span class="mission-highlight">불필요한 시간 투입 없이, 투자의 성공확률을 극대화</span> 하시길 기원합니다. 세계인이 함께 쓰는 글로벌 서칭 시스템으로서 과부하를 막고 양질의 결과를 도출하기 위해 무료버전은 기능을 제한하고 있습니다. 추후 서버 증설 등 투자 확대를 통해 무료 범위를 확대할 계획이니 너그러이 양해 부탁드립니다.
+        이러한 과거의 패턴을 통한 미래의 패턴 예측, 그 중에서도 우리는 오늘까지의 차트를 보고 내일의 캔들 형태와 방향을 알고 싶습니다. <b>그래서</b> 일일이 상장된 모든 종목을 찾아서 내가 원하는 차트와 유사한 종목을 찾고, 증권사 PC 프로그램을 통해 원하는 그림을 그리거나 조건을 입력해서 검색해 왔죠. 그러나 무겁고 불편하고 부정확했습니다.<br><br>
+        이제 <span class="mission-highlight">AlphaChart AI</span>가 몇 분만에 도플갱어 종목들을 찾아줄 수 있습니다.<br><br>
+        또, 그동안 차트 매매의 대가들이 정립해 놓은 검증된 패턴들을 기본 장착하여, 사용자가 가져온 차트 업로드 없이도 바로 내일이나 모레 살만한 종목 후보군을 찾을 수 있게 되었습니다.<br><br>
+        차트 매매를 주로 하시는 데이 트레이더, 기업가치와 함께 차트를 같이 보시는 단중기 트레이더 모두 AlphaChart AI를 통해, <span class="mission-highlight">불필요한 시간 투입 없이 투자의 성공확률을 극대화</span> 하시길 기원합니다.<br><br>
+        세계인이 함께 쓰는 글로벌 서칭 시스템으로서 과부하를 막고 양질의 결과를 도출하기 위해, <b>부득이</b> 무료버전은 기능을 제한하고 있습니다.<br><br>
+        추후 서버 증설 등 투자 확대를 통해 무료 범위를 확대할 계획이니 너그러이 양해 부탁드립니다.
     </div>
 """, unsafe_allow_html=True)
 
@@ -231,34 +258,55 @@ with c_m2:
 # --- 🎯 상세 필터 설정 ---
 with st.expander("🎯 상세 필터 설정 (눌러서 열기)"):
     c_f1, c_f2 = st.columns(2)
-    only_bullish = c_f1.checkbox("✅ 양봉(상승)만 보기", value=True)
-    only_doji = c_f2.checkbox("✅ 도지(십자가)만 보기", value=False)
+    only_bullish = c_f1.checkbox("마지막(최근) 캔들 양봉(상승)만 보기", value=False)
+    only_doji = c_f2.checkbox("마지막(최근) 캔들 도지(십자가)만 보기", value=False)
     
     st.markdown("---")
-    st.caption("📅 분석 기간 설정 (캔들 개수)")
-    search_period = st.slider("비교할 과거 기간 (자동 인식됨)", 5, 120, st.session_state.detected_period)
+    st.caption("📅 분석 기간 설정")
     
-    if search_period > 60:
-        st.caption("💡 Tip: 기간이 길면(60일 이상) 전체 추세를, 짧으면(20일 이하) 최근 캔들 모양을 중점적으로 봅니다.")
+    cur_key = st.session_state.selected_key
+    cur_name = PATTERN_DB[cur_key]['name'].replace('\n', ' ')
+    if not IS_PRO and PATTERN_DB[cur_key]['locked']:
+        cur_name = "🔒 " + cur_name
+
+    st.info(f"👉 **[{cur_name}]** 기준: AI가 차트에서 **{st.session_state.detected_period}일** 치 패턴을 자동 인식하여 분석합니다.")
+    search_period = st.session_state.detected_period
 
 # --- 💡 패턴 섹션 ---
 st.markdown("### 💡 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>", unsafe_allow_html=True)
 st.markdown("""<div class="pattern-info">
-이 패턴들은 상승 지속형 2개, 하락에서 반등형 8개이며 내일 또는 모레 매수해도 단타나 스윙으로 성공할 확률이 높은 대표적인 모델입니다. 단, 기업가치, 거래량, 뉴스, 공시 등 내재가치와 외부환경은 매매 전에 함께 고려해야 할 것입니다. 물론, 복잡한 내재와 외부를 고려하지 않고 그냥 매수해도 안전할 확률이 높은 편이지만 돌다리도 두드리고 건널 필요는 있겠지요. 자 이제, 도플갱어를 찾은 후 최종 선택은 여러분의 몫입니다.
+이 패턴들은 상승 지속형 6개, 하락에서 반등형 8개이며 하락 경직 또는 눌림목 상태이므로 내일 또는 모레 매수해도 단타나 스윙으로 성공할 확률이 높은 대표적인 모델입니다.<br><br>
+단, 기업가치, 거래량, 뉴스, 공시 등 내재가치와 외부환경은 매매 전에 함께 고려해야 할 것입니다.<br><br>
+물론, 복잡한 내재와 외부를 고려하지 않고 그냥 매수해도 안전할 확률이 높은 편이지만 돌다리도 두드리고 건널 필요는 있겠지요.<br><br>
+자! 이제, 도플갱어를 찾은 후 최종 선택은 여러분의 몫입니다.
 </div>""", unsafe_allow_html=True)
 
+# 패턴 버튼 그리기 (5개씩 3줄)
 keys = list(PATTERN_DB.keys())
-cols1 = st.columns(5); cols2 = st.columns(5)
+cols1 = st.columns(5)
+cols2 = st.columns(5)
+cols3 = st.columns(5)
+
 for i, key in enumerate(keys):
-    target_col = cols1[i] if i < 5 else cols2[i-5]
+    if i < 5:
+        target_col = cols1[i]
+    elif i < 10:
+        target_col = cols2[i-5]
+    else:
+        target_col = cols3[i-10] # 11~15번째 패턴 (K~O)
+    
     with target_col:
         p = PATTERN_DB[key]
-        p_name = p['name'].replace("🔒", "") if IS_PRO else p['name']
-        st.button(p_name, key=f"btn_{key}", use_container_width=True, on_click=update_pattern, args=(key,))
+        display_name = p['name']
+        if not IS_PRO and p['locked']:
+            display_name = "🔒 " + display_name
+            
+        st.button(display_name, key=f"btn_{key}", use_container_width=True, on_click=update_pattern, args=(key,))
 
 # --- 📷 2. 나만의 차트 업로드 ---
 st.markdown("### 📷 2. 또는 나만의 차트 업로드")
 uploaded_file = st.file_uploader("이미지 파일 업로드 (jpg, png)", type=['png', 'jpg', 'jpeg'], label_visibility="collapsed")
+st.caption("이동평균선 등을 제외하고 캔들차트만 있을수록 정확합니다.")
 
 if uploaded_file:
     target_input = uploaded_file
@@ -271,57 +319,55 @@ else:
     sel_p = PATTERN_DB[sel_key]
     target_input = sel_p['file']
     is_path_mode = True
-    sel_p_name = sel_p['name'].replace("🔒", "")
+    sel_p_name = sel_p['name'].replace("\n", "") 
     sel_p_type = sel_p.get('type', 'Custom')
     sel_p_locked = sel_p['locked']
 
-# --- 🧠 분석 엔진 (업그레이드) ---
+# --- 🧠 분석 엔진 ---
 def count_candles_engine(img):
     try:
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        mask_red1 = cv2.inRange(hsv, np.array([0, 50, 50]), np.array([10, 255, 255]))
-        mask_red2 = cv2.inRange(hsv, np.array([170, 50, 50]), np.array([180, 255, 255]))
-        mask_blue = cv2.inRange(hsv, np.array([100, 50, 50]), np.array([130, 255, 255]))
-        combined_mask = cv2.bitwise_or(cv2.bitwise_or(mask_red1, mask_red2), mask_blue)
+        if len(img.shape) == 3:
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = img
+            
+        if np.mean(gray) > 127: # 밝은 배경
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+        else: # 어두운 배경
+            thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+
+        kernel_v = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 3)) 
+        cleaned = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel_v)
         
-        # 노이즈 제거
-        kernel = np.ones((2,2), np.uint8) # 커널 크기를 줄여서 세밀하게
-        combined_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_OPEN, kernel)
-        
-        contours, _ = cv2.findContours(combined_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(cleaned, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         
         if not contours: return 20
-        
-        # 💡 [핵심] 캔들 폭(Width) 보정 로직
-        widths = []
-        valid_contours = []
+
+        valid_widths = []
         height, width = img.shape[:2]
-        min_area = (height * width) * 0.0001 # 아주 작은 점 제외
+        min_h = height * 0.02 
         
         for c in contours:
-            if cv2.contourArea(c) > min_area:
-                x, y, w, h = cv2.boundingRect(c)
-                widths.append(w)
-                valid_contours.append(c)
-        
-        if not widths: return 20
-        
-        # 캔들 폭의 중간값(Median) 계산 -> 이걸 표준 1개 폭으로 간주
-        median_w = np.median(widths)
+            x, y, w, h = cv2.boundingRect(c)
+            if h > min_h: 
+                valid_widths.append(w)
+                
+        if not valid_widths: return 20
+
+        median_w = np.median(valid_widths)
         if median_w == 0: median_w = 1
         
-        total_candles = 0
-        for w in widths:
-            # 뭉쳐있는 덩어리는 너비에 비례해서 개수 추가
-            count_in_blob = max(1, round(w / median_w))
-            total_candles += count_in_blob
+        total_cnt = 0
+        for w in valid_widths:
+            cnt = max(1, round(w / median_w))
+            total_cnt += cnt
             
-        # 범위 제한
-        if total_candles < 5: total_candles = 20
-        if total_candles > 120: total_candles = 120
+        if total_cnt < 5: return 20
+        if total_cnt > 120: return 60 
         
-        return int(total_candles)
-    except:
+        return int(total_cnt)
+
+    except Exception as e:
         return 20
 
 def extract_features_engine(img_input, is_file_path=False):
@@ -332,7 +378,6 @@ def extract_features_engine(img_input, is_file_path=False):
             file_bytes = np.asarray(bytearray(img_input.read()), dtype=np.uint8); img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         if img is None: return None
         
-        # 캔들 개수 추정
         candle_count = count_candles_engine(img)
         
         hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -404,14 +449,20 @@ with c_p2:
         with open(target_input, "rb") as f: b64 = base64.b64encode(f.read()).decode()
         st.markdown(f"""<div style="border:2px solid {theme_color}; border-radius:15px; overflow:hidden; text-align:center;"><img src="data:image/jpeg;base64,{b64}" style="width:100%; height:auto; max-height:250px; object-fit:contain;"></div>""", unsafe_allow_html=True)
         
+        # [수정] 기본 패턴 이미지 선택 시에도 분석 기간(detected_period)을 업데이트
+        if feat_data:
+            _, _, detected_cnt = feat_data
+            if st.session_state.detected_period != detected_cnt:
+                st.session_state.detected_period = detected_cnt
+                st.rerun()
+
     if feat_data:
         user_p, _, cnt = feat_data
-        st.markdown(f"""<div style="margin-top:10px; margin-bottom:5px;"><span class="info-tag">🔍 AI 분석</span> 캔들 <b>{cnt}</b>개 인식됨 │ 패턴 추출 완료</div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="margin-top:10px; margin-bottom:5px;"><span class="info-tag">🔍 AI 분석</span> 캔들 <b>{cnt}</b>개 인식됨 │ <b>AI Pattern Shape</b> (아래 그래프)</div>""", unsafe_allow_html=True)
         
         user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
         fig, ax = plt.subplots(figsize=(6, 1.5))
         ax.plot(user_p_norm, color=theme_color, lw=2.5)
-        ax.set_title("AI가 인식한 차트 흐름 (Pattern Shape)", fontsize=10, color='gray')
         ax.axis('off')
         fig.patch.set_alpha(0)
         st.pyplot(fig)
@@ -419,6 +470,7 @@ with c_p2:
     elif sel_p_locked: st.warning("🔒 PRO 전용 모델입니다.")
 
 clean_name = sel_p_name.split('. ', 1)[-1] if '. ' in sel_p_name else sel_p_name
+clean_name = clean_name.replace('\n', ' ') 
 button_label = f"🚀 [{clean_name}] 분석 시작"
 
 if st.button(button_label, type="primary", use_container_width=True):
@@ -511,4 +563,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v19.1 | Smart Candle Counter")
+st.caption("AlphaChart AI v20.6 | Refined UI & Expanded Pattern DB")
