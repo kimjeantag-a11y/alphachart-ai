@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v17.0")
+    st.caption("AlphaChart AI v17.1")
 
 IS_PRO = st.session_state.is_pro
 
@@ -129,20 +129,19 @@ st.markdown(f"""
     .stock-code {{ font-size: 13px; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }}
     .sim-score {{ font-size: 20px; font-weight: 900; color: {'#b45309' if IS_PRO else '#0284c7'}; }}
     
-    /* 💡 [수정] 버튼 스타일: PC/모바일 명확히 분리 */
-    .btn-row {{ display: flex; gap: 8px; flex-wrap: wrap; }}
-    .custom-btn {{ 
+    /* 💡 [버튼 스타일] PC/Mobile 모두 동일하게 깔끔한 디자인 */
+    .custom-btn {{
         display: inline-flex; align-items: center; justify-content: center;
-        padding: 8px 14px; border-radius: 8px; text-decoration: none !important; 
-        font-size: 13px; font-weight: bold; transition: 0.2s; border: none; cursor: pointer;
+        padding: 8px 16px; border-radius: 8px; text-decoration: none !important;
+        font-size: 14px; font-weight: bold; transition: 0.2s; border: none; cursor: pointer;
     }}
     
-    /* PC용 버튼: 회색 계열 */
+    /* PC 버튼 (기본) */
     .btn-pc {{ background: #f1f5f9; color: #475569 !important; border: 1px solid #cbd5e1; }}
     .btn-pc:hover {{ background: #e2e8f0; color: #1e293b !important; }}
     
-    /* 모바일용 버튼: 네이버 그린 계열 */
-    .btn-mo {{ background: #03c75a; color: white !important; border: 1px solid #03c75a; }}
+    /* 모바일 버튼 (강조) */
+    .btn-mo {{ background: #03c75a; color: white !important; border: 1px solid #03c75a; margin-left: 8px; }}
     .btn-mo:hover {{ background: #02b351; color: white !important; }}
     
     .btn-global {{ background: {theme_color}; color: {'black' if IS_PRO else 'white'} !important; }}
@@ -372,11 +371,11 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
             
-            # 💡 [핵심] 사용자가 직접 선택하도록 버튼 2개 명시적 제공
+            # 💡 [최종 수정] 모바일/PC 버튼 모두 'fchart.naver' (차트 직결 링크) 사용
+            # PC용은 회색, 모바일용은 초록색으로 구분하지만 목적지는 '차트 only'로 통일
             if market_code == "KRX":
-                pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
-                mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
-                links_html = f'<div class="btn-row"><a href="{pc_link}" target="_blank" class="custom-btn btn-pc">💻 PC용 차트</a><a href="{mo_link}" target="_blank" class="custom-btn btn-mo">📱 모바일용 차트</a></div>'
+                chart_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
+                links_html = f'<div class="btn-row"><a href="{chart_link}" target="_blank" class="custom-btn btn-pc">💻 PC용 차트</a><a href="{chart_link}" target="_blank" class="custom-btn btn-mo">📱 모바일용 차트</a></div>'
             
             elif market_code in ["NASDAQ", "NYSE"]:
                 link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
@@ -407,4 +406,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v17.0 | Explicit Dual Links")
+st.caption("AlphaChart AI v17.1 | Mobile Link Fix")
