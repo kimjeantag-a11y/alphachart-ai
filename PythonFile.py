@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v16.1")
+    st.caption("AlphaChart AI v16.2")
 
 IS_PRO = st.session_state.is_pro
 
@@ -60,7 +60,6 @@ PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
-    # 💡 [확인] 사용자 파일명: "장대양봉 허리 지지 상승.jpg"
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name": "B. 급락후 바닥에서 반등", "locked": False, "type": "B"}, 
     "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
@@ -120,8 +119,15 @@ st.markdown(f"""
     .mission-box {{ background: white; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 1.5rem; line-height: 1.8; color: #334155; font-size: 15px; }}
     .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
     .pattern-info {{ font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
+    
     .result-card {{ padding: 15px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }}
-    .chart-link {{ display: inline-block; padding: 5px 12px; background: {'#b45309' if IS_PRO else '#0284c7'}; color: white !important; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; margin-top: 5px; }}
+    
+    /* 💡 [UI 개선] 버튼형 링크 스타일 */
+    .link-btn {{ display: inline-block; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: bold; margin-right: 5px; margin-top: 5px; transition: 0.2s; }}
+    .link-btn-pc {{ background: #e2e8f0; color: #475569 !important; border: 1px solid #cbd5e1; }}
+    .link-btn-pc:hover {{ background: #cbd5e1; }}
+    .link-btn-mo {{ background: {theme_color}; color: {'black' if IS_PRO else 'white'} !important; border: 1px solid {theme_color}; }}
+    
     .locked-card {{ padding: 20px; border-radius: 12px; background: #fffbeb; border: 2px dashed #fbbf24; text-align: center; color: #b45309; font-weight: bold; margin-top: 10px; }}
     </style>
 """, unsafe_allow_html=True)
@@ -173,7 +179,6 @@ with c_m1:
 def get_stock_list_info(market):
     try:
         df = fdr.StockListing(market)
-        # 💡 [핵심] 무료 버전 결과 수 확보를 위한 시가총액 정렬 부활
         if market == 'KRX' and 'Marcap' in df.columns:
             df = df.sort_values(by='Marcap', ascending=False)
         elif 'Market Cap' in df.columns:
@@ -193,7 +198,6 @@ with c_m2:
         limit_val = st.slider(f"검색 범위 제한 (전체 {total_count:,}개 중)", 10, total_count, min(1000, total_count), label_visibility="collapsed")
         st.success(f"✅ PRO 활성화: {limit_val}개 정밀 스캔")
     else:
-        # 문구 수정: 정렬 기준 명시
         limit_val = st.slider(f"검색 범위 제한 (시가총액 상위 {total_count:,}개 중)", 10, total_count, 300, disabled=True, label_visibility="collapsed")
         st.caption(f"🔒 무료 버전은 시가총액 상위 300개만 스캔 가능")
 
@@ -348,22 +352,40 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            # 💡 [핵심 수정] 네이버 '차트 전용 팝업' 주소로 통일 (fchart.naver)
-            # 이 주소는 PC/모바일 모두에서 군더더기 없이 '차트만' 띄워줍니다.
-            if market_code == "KRX": chart_url = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
-            elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
-            elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
-            elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
-            else: chart_url = f"https://finance.yahoo.com/quote/{res['code']}"; link_text = "Yahoo Finance ↗"
+            
+            # 💡 [핵심] 1. PC용(팝업), 2. 모바일용(앱연동/차트탭) 링크 분리 생성
+            if market_code == "KRX": 
+                pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
+                mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
+            elif market_code in ["NASDAQ", "NYSE"]:
+                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
+            elif market_code == "TSE":
+                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
+            elif market_code == "HKEX":
+                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
+            else:
+                pc_link = mo_link = f"https://finance.yahoo.com/quote/{res['code']}"
             
             sim_color = "#b45309" if IS_PRO else "#0284c7"
+            
+            # 💡 [UI] 두 개의 버튼을 나란히 배치 (PC 차트 / 모바일 차트)
+            # KRX(국내)일 때만 분리해서 보여주고, 해외는 하나로 통일
+            links_html = ""
+            if market_code == "KRX":
+                links_html = f"""
+                    <a href="{pc_link}" target="_blank" class="link-btn link-btn-pc">🖥️ PC 차트</a>
+                    <a href="{mo_link}" target="_blank" class="link-btn link-btn-mo">📱 모바일 차트</a>
+                """
+            else:
+                links_html = f"""<a href="{pc_link}" target="_blank" class="link-btn link-btn-mo">📈 차트 보기</a>"""
+
             st.markdown(f"""
             <div class="result-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
                         <span style="font-weight:900; font-size:18px; color:#0f172a;">{res['name']}</span> 
                         <span style="color:#64748b; font-size:13px;">({res['code']})</span><br>
-                        <a href="{chart_url}" target="_blank" class="chart-link">{link_text}</a>
+                        {links_html}
                     </div>
                     <div style="text-align:right;">
                         <span style="font-size:22px; font-weight:900; color:{sim_color};">{res['sim']:.1f}%</span><br>
@@ -375,4 +397,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v16.1 | Final Chart Link & Sort Fix")
+st.caption("AlphaChart AI v16.2 | Dual Link & Full Fix")
