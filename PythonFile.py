@@ -34,16 +34,16 @@ TRANS = {
         "filter_detail": "🎯 상세 필터 설정 (눌러서 열기)",
         "filter_bullish": "마지막(최근) 캔들 양봉(상승)만 보기",
         "filter_doji": "마지막(최근) 캔들 도지(십자가)만 보기",
-        "period_set_caption": "📅 분석 기간 설정",
-        "period_info_fmt": "👉 **[{}]** 기준: AI가 차트에서 **{}일** 치 패턴을 자동 인식하여 분석합니다.",
-        "section1_title": "### 💡 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
+        "period_set_caption": "⏱️ 분석 기간 설정",
+        "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **{}일** 치 패턴을 자동 인식하여 분석합니다.",
+        "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
         "pattern_desc": """<div class="pattern-info">
         이 패턴들은 상승 지속형 6개, 하락에서 반등형 8개이며 하락 경직 또는 눌림목 상태이므로 내일 또는 모레 매수해도 단타나 스윙으로 성공할 확률이 높은 대표적인 모델입니다.<br><br>
         단, 기업가치, 거래량, 뉴스, 공시 등 내재가치와 외부환경은 매매 전에 함께 고려해야 할 것입니다.<br><br>
         물론, 복잡한 내재와 외부를 고려하지 않고 그냥 매수해도 안전할 확률이 높은 편이지만 돌다리도 두드리고 건널 필요는 있겠지요.<br><br>
         자! 이제, 도플갱어를 찾은 후 최종 선택은 여러분의 몫입니다.
         </div>""",
-        "section2_title": "### 📷 2. 또는 나만의 차트 업로드",
+        "section2_title": "### 🖼️ 2. 또는 나만의 차트 업로드",
         "upload_label": "이미지 파일 업로드 (jpg, png)",
         "upload_caption": "이동평균선 등을 제외하고 캔들차트만 있을수록 정확합니다.",
         "ai_analysis_badge": "🔍 AI 분석",
@@ -89,16 +89,16 @@ TRANS = {
         "filter_detail": "🎯 Advanced Filters (Click to expand)",
         "filter_bullish": "Last candle must be Bullish (Green/Red)",
         "filter_doji": "Last candle must be Doji (Cross)",
-        "period_set_caption": "📅 Analysis Period",
-        "period_info_fmt": "👉 Based on **[{}]**: AI automatically detects and analyzes **{} days** pattern.",
-        "section1_title": "### 💡 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
+        "period_set_caption": "⏱️ Analysis Period",
+        "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes **{} days** pattern.",
+        "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
         "pattern_desc": """<div class="pattern-info">
         These patterns include 6 bullish continuation and 8 reversal-from-bottom types. They represent models with high probability of success for day or swing trading if bought tomorrow or the day after, as they are in a state of downward rigidity or pullback.<br><br>
         However, intrinsic values such as corporate value, volume, news, and disclosures, as well as external environments, should be considered before trading.<br><br>
         Of course, the probability of safety is high even if you buy without considering complex internal and external factors, but it is always better to be safe than sorry.<br><br>
         Now! After finding your chart doppelganger, the final choice is yours.
         </div>""",
-        "section2_title": "### 📷 2. Or Upload Your Own Chart",
+        "section2_title": "### 🖼️ 2. Or Upload Your Own Chart",
         "upload_label": "Upload Image (jpg, png)",
         "upload_caption": "Accuracy improves if only candlestick charts are present (exclude Moving Averages, etc).",
         "ai_analysis_badge": "🔍 AI Analysis",
@@ -144,16 +144,16 @@ TRANS = {
         "filter_detail": "🎯 詳細フィルタ設定 (クリックして展開)",
         "filter_bullish": "直近ローソク足が「陽線」のみ",
         "filter_doji": "直近ローソク足が「十字線(同時線)」のみ",
-        "period_set_caption": "📅 分析期間設定",
-        "period_info_fmt": "👉 **[{}]** 基準: AIがチャートから **{}日分** のパターンを自動認識して分析します。",
-        "section1_title": "### 💡 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
+        "period_set_caption": "⏱️ 分析期間設定",
+        "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **{}日分** のパターンを自動認識して分析します。",
+        "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
         "pattern_desc": """<div class="pattern-info">
         これらのパターンは上昇持続型6つ、下落からの反発型8つであり、下落硬直または押し目買いの状態にあるため、明日や明後日に購入してもデイトレやスイングトレードで成功する確率が高い代表的なモデルです。<br><br>
         ただし、企業価値、出来高、ニュース、開示情報などの内在価値と外部環境は、売買前に併せて考慮する必要があります。<br><br>
         もちろん、複雑な内在・外部要因を考慮せずに購入しても安全である確率は高い方ですが、石橋を叩いて渡る必要はあるでしょう。<br><br>
         さあ！ドッペルゲンガー(瓜二つのチャート)を見つけた後の最終選択は、あなたの役割です。
         </div>""",
-        "section2_title": "### 📷 2. または自分のチャートをアップロード",
+        "section2_title": "### 🖼️ 2. または自分のチャートをアップロード",
         "upload_label": "画像ファイルアップロード (jpg, png)",
         "upload_caption": "移動平均線などを除き、ローソク足チャートのみであるほど正確です。",
         "ai_analysis_badge": "🔍 AI分析",
@@ -194,8 +194,8 @@ if 'lang' not in st.session_state:
     st.session_state.lang = "KR"
 
 with st.sidebar:
-    # 🌍 언어 선택
-    lang_choice = st.selectbox("🌐 Language", ["Korean (한국어)", "English", "Japanese (日本語)"])
+    # 🌍 언어 선택 (국기 추가)
+    lang_choice = st.selectbox("🌐 Language", ["🇰🇷 Korean (한국어)", "🇺🇸 English", "🇯🇵 Japanese (日本語)"])
     if "Korean" in lang_choice:
         st.session_state.lang = "KR"
     elif "English" in lang_choice:
@@ -234,11 +234,11 @@ with st.sidebar:
                     st.rerun()
     
     st.markdown("---")
-    st.caption("AlphaChart AI v21.2 Global")
+    st.caption("AlphaChart AI v21.5 Global")
 
 IS_PRO = st.session_state.is_pro
 t = TRANS[st.session_state.lang]
-debug_code = None # 디버깅 변수 초기화 (에러 방지용)
+debug_code = None 
 
 # --- 🎯 [설정] 심볼 파일명 ---
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
@@ -296,7 +296,6 @@ st.markdown(f"""
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
     }}
     
-    /* 💡 버튼 스타일 (줄바꿈 지원 및 정렬) */
     div.stButton > button {{
         width: 100%;
         min-height: 4.5rem;
@@ -320,15 +319,24 @@ st.markdown(f"""
     }}
     .upgrade-pro-btn:hover {{ transform: scale(1.05); }}
     
+    /* 💡 텍스트 줄바꿈 및 정렬 개선 */
     .mission-box {{ 
         background: white; padding: 25px; border-radius: 15px; 
         border: 1px solid #e2e8f0; margin-bottom: 1.5rem; 
         line-height: 1.8; color: #334155; 
         font-size: 17px;
+        word-break: keep-all; 
+        overflow-wrap: break-word;
     }}
     .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
     
-    .pattern-info {{ font-size: 16px; color: #334155; line-height: 1.7; background: #f1f5f9; padding: 20px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
+    .pattern-info {{ 
+        font-size: 16px; color: #334155; line-height: 1.7; 
+        background: #f1f5f9; padding: 20px; border-radius: 10px; 
+        border-left: 5px solid {theme_color}; margin-bottom: 20px; 
+        word-break: keep-all; 
+        overflow-wrap: break-word;
+    }}
     
     .result-card {{ 
         padding: 18px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 12px; 
@@ -386,10 +394,10 @@ st.markdown(header_html, unsafe_allow_html=True)
 st.markdown(t['mission_html'], unsafe_allow_html=True)
 
 # --- 🌏 글로벌 증시 선택 ---
-st.markdown(f"### 🌏 {t['market_select']}")
+st.markdown(f"### 🏛️ {t['market_select']}") 
 c_m1, c_m2 = st.columns([2, 1])
 with c_m1:
-    market_map = {"Korea (KRX)": "KRX", "USA (NASDAQ)": "NASDAQ", "USA (NYSE)": "NYSE", "Japan (TSE)": "TSE", "Hong Kong (HKEX)": "HKEX"}
+    market_map = {"🇰🇷 Korea (KRX)": "KRX", "🇺🇸 USA (NASDAQ)": "NASDAQ", "🇺🇸 USA (NYSE)": "NYSE", "🇯🇵 Japan (TSE)": "TSE", "🇭🇰 Hong Kong (HKEX)": "HKEX"}
     market_label = st.selectbox("Market", list(market_map.keys()), label_visibility="collapsed")
     market_code = market_map[market_label]
 
@@ -465,13 +473,12 @@ for i, key in enumerate(keys):
         if not IS_PRO and p['locked']:
             display_name = "🔒 " + display_name
         
-        # [수정] 선택된 버튼은 'primary' 타입으로 강조
         btn_type = "primary" if st.session_state.selected_key == key else "secondary"
         
         st.button(display_name, key=f"btn_{key}", use_container_width=True, type=btn_type, on_click=update_pattern, args=(key,))
 
 # --- 📷 2. 나만의 차트 업로드 ---
-st.markdown(t['section2_title'])
+st.markdown(t['section2_title']) 
 uploaded_file = st.file_uploader(t['upload_label'], type=['png', 'jpg', 'jpeg'], label_visibility="collapsed")
 st.caption(t['upload_caption'])
 
@@ -721,4 +728,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown(f"""<div class="locked-card">{t['locked_msg']}</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v21.2 Global")
+st.caption("AlphaChart AI v21.5 Global")
