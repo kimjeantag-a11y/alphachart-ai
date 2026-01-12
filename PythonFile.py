@@ -50,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v16.3")
+    st.caption("AlphaChart AI v16.4")
 
 IS_PRO = st.session_state.is_pro
 
@@ -120,29 +120,30 @@ st.markdown(f"""
     .mission-highlight {{ color: {'#b45309' if IS_PRO else '#0284c7'}; font-weight: 800; }}
     .pattern-info {{ font-size: 14px; color: #334155; line-height: 1.6; background: #f1f5f9; padding: 18px; border-radius: 10px; border-left: 5px solid {theme_color}; margin-bottom: 20px; }}
     
-    /* 💡 [레이아웃 수정] 결과 카드 내부 정리 */
     .result-card {{ 
         padding: 18px; border-radius: 12px; background: white; border: 1px solid #e2e8f0; margin-bottom: 12px; 
         box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
     }}
-    .stock-info {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }}
+    .stock-info {{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }}
     .stock-name {{ font-weight: 900; font-size: 19px; color: #0f172a; }}
     .stock-code {{ font-size: 13px; color: #64748b; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; margin-left: 5px; }}
     .sim-score {{ font-size: 20px; font-weight: 900; color: {'#b45309' if IS_PRO else '#0284c7'}; }}
     
-    /* 💡 [버튼 디자인] PC/모바일 구분 명확히 */
-    .btn-row {{ display: flex; gap: 8px; }}
-    .link-btn {{ 
+    /* 💡 [수정] 버튼 스타일 클래스명 통일 및 강화 */
+    .btn-row {{ display: flex; gap: 8px; flex-wrap: wrap; }}
+    .custom-btn {{ 
         display: inline-flex; align-items: center; justify-content: center;
-        padding: 8px 14px; border-radius: 8px; text-decoration: none; 
-        font-size: 13px; font-weight: bold; transition: 0.2s; border: none;
+        padding: 8px 14px; border-radius: 8px; text-decoration: none !important; 
+        font-size: 13px; font-weight: bold; transition: 0.2s; border: none; cursor: pointer;
     }}
     .btn-pc {{ background: #f1f5f9; color: #475569 !important; border: 1px solid #cbd5e1; }}
-    .btn-pc:hover {{ background: #e2e8f0; }}
+    .btn-pc:hover {{ background: #e2e8f0; color: #1e293b !important; }}
+    
     .btn-mo {{ background: #03c75a; color: white !important; /* 네이버 그린 */ }}
-    .btn-mo:hover {{ background: #02b351; }}
+    .btn-mo:hover {{ background: #02b351; color: white !important; }}
+    
     .btn-global {{ background: {theme_color}; color: {'black' if IS_PRO else 'white'} !important; }}
-
+    
     .locked-card {{ padding: 20px; border-radius: 12px; background: #fffbeb; border: 2px dashed #fbbf24; text-align: center; color: #b45309; font-weight: bold; margin-top: 10px; }}
     </style>
 """, unsafe_allow_html=True)
@@ -194,7 +195,6 @@ with c_m1:
 def get_stock_list_info(market):
     try:
         df = fdr.StockListing(market)
-        # 시가총액 정렬 (우량주 우선 검색)
         if market == 'KRX' and 'Marcap' in df.columns:
             df = df.sort_values(by='Marcap', ascending=False)
         elif 'Market Cap' in df.columns:
@@ -369,35 +369,29 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
             
-            # 💡 [핵심] 링크 전략 수정
-            # 1. PC: fchart.naver (팝업형 차트) -> 가장 깔끔함
-            # 2. Mobile: m.stock.naver.../chart (모바일 차트탭) -> 앱 느낌
+            # 💡 [핵심] HTML 노출 오류 원인 제거 (공백 없는 f-string 사용)
             if market_code == "KRX":
                 pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"
                 mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
-                # 💡 해외주식은 TradingView 하나로 통일 (가장 완벽함)
-            elif market_code in ["NASDAQ", "NYSE"]:
-                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
-            elif market_code == "TSE":
-                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
-            elif market_code == "HKEX":
-                pc_link = mo_link = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
-            else:
-                pc_link = mo_link = f"https://finance.yahoo.com/quote/{res['code']}"
+                links_html = f'''<div class="btn-row"><a href="{pc_link}" target="_blank" class="custom-btn btn-pc">🖥️ PC 차트</a><a href="{mo_link}" target="_blank" class="custom-btn btn-mo">📱 모바일 차트</a></div>'''
             
-            # 💡 [UI 개선] 버튼 HTML 생성
-            if market_code == "KRX":
-                links_html = f"""
-                <div class="btn-row">
-                    <a href="{pc_link}" target="_blank" class="link-btn btn-pc">🖥️ PC 차트</a>
-                    <a href="{mo_link}" target="_blank" class="link-btn btn-mo">📱 모바일 차트</a>
-                </div>
-                """
+            elif market_code in ["NASDAQ", "NYSE"]:
+                link = f"https://www.tradingview.com/chart/?symbol={res['code']}"
+                links_html = f'''<a href="{link}" target="_blank" class="custom-btn btn-global">📈 차트 보기</a>'''
+            
+            elif market_code == "TSE":
+                link = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"
+                links_html = f'''<a href="{link}" target="_blank" class="custom-btn btn-global">📈 차트 보기</a>'''
+                
+            elif market_code == "HKEX":
+                link = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"
+                links_html = f'''<a href="{link}" target="_blank" class="custom-btn btn-global">📈 차트 보기</a>'''
+                
             else:
-                links_html = f"""
-                <a href="{pc_link}" target="_blank" class="link-btn btn-global">📈 차트 보기</a>
-                """
+                link = f"https://finance.yahoo.com/quote/{res['code']}"
+                links_html = f'''<a href="{link}" target="_blank" class="custom-btn btn-global">📈 차트 보기</a>'''
 
+            # 💡 f-string 안에 중괄호 사용을 피하기 위해 format 대신 직접 변수 삽입
             st.markdown(f"""
             <div class="result-card">
                 <div class="stock-info">
@@ -414,4 +408,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v16.3 | Mobile/PC Links Separated")
+st.caption("AlphaChart AI v16.4 | Clean HTML & CSS Fix")
