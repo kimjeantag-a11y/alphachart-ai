@@ -22,7 +22,6 @@ if 'show_license_input' not in st.session_state:
 
 with st.sidebar:
     st.header("⚙️ Settings")
-    
     if st.session_state.is_pro:
         st.success("✅ PRO License Active")
         if st.button("Logout / Reset", use_container_width=True):
@@ -31,14 +30,10 @@ with st.sidebar:
             st.rerun()
     else:
         st.info("현재: Free Version")
-        
-        # 입력창이 없을 때만 버튼 표시
         if not st.session_state.show_license_input:
             if st.button("👑 PRO 업그레이드", use_container_width=True):
                 st.session_state.show_license_input = True
                 st.rerun()
-        
-        # 입력창 활성화 시
         if st.session_state.show_license_input:
             with st.expander("🔑 라이선스 키 입력", expanded=True):
                 license_key = st.text_input("License Key", type="password", label_visibility="collapsed")
@@ -55,7 +50,7 @@ with st.sidebar:
                     st.rerun()
 
     st.markdown("---")
-    st.caption("AlphaChart AI v15.6")
+    st.caption("AlphaChart AI v15.7")
 
 IS_PRO = st.session_state.is_pro
 
@@ -65,6 +60,7 @@ PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
 PATTERN_DB = {
+    # 💡 [확인] 사용자님 폴더의 파일명과 띄어쓰기까지 정확히 일치해야 합니다.
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name": "A. 장대양봉 허리 지지 상승", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name": "B. 급락후 바닥에서 반등", "locked": False, "type": "B"}, 
     "C": {"file": "큰하락 후 정배열, 상승 지속(컵위드핸들).jpg", "name": "C. 큰하락 후 정배열, 상승 지속 🔒", "locked": not IS_PRO, "type": "Custom"},
@@ -345,7 +341,8 @@ if st.button(button_label, type="primary", use_container_width=True):
         st.markdown(f"### 🏆 분석 결과 (Top {show_count})")
         if not results: st.warning("조건에 맞는 종목을 찾지 못했습니다.")
         for i, res in enumerate(results[:show_count]):
-            if market_code == "KRX": chart_url = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"; link_text = "네이버 증권 차트 ↗"
+            # 💡 [핵심 수정] PC는 팝업, 모바일은 자동 연결되는 'fchart.naver' 사용
+            if market_code == "KRX": chart_url = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; link_text = "네이버 증권 차트 ↗"
             elif market_code in ["NASDAQ", "NYSE"]: chart_url = f"https://www.tradingview.com/chart/?symbol={res['code']}"; link_text = "TradingView 차트 ↗"
             elif market_code == "TSE": chart_url = f"https://www.tradingview.com/chart/?symbol=TSE:{res['code'].replace('.T','')}"; link_text = "TradingView (Japan) ↗"
             elif market_code == "HKEX": chart_url = f"https://www.tradingview.com/chart/?symbol=HKEX:{res['code'].replace('.HK','')}"; link_text = "TradingView (HK) ↗"
@@ -370,4 +367,4 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not IS_PRO and len(results) > 5:
             st.markdown("""<div class="locked-card">🔒 TOP 6 ~ 10 및 전종목 검색 결과는<br>PRO 버전 업그레이드 시 확인 가능합니다.</div>""", unsafe_allow_html=True)
 
-st.caption("AlphaChart AI v15.6 | Final Matched Version")
+st.caption("AlphaChart AI v15.7 | PC/Mobile Universal Chart Link")
