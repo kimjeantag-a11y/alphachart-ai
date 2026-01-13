@@ -358,10 +358,16 @@ RAW_PATTERN_DB = {
     "H": {"file": "쌍바닥(완만).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
     
     "I": {"file": "쌍바닥(급경사).jpg", "name_KR": "I. 쌍바닥(급경사)", "name_EN": "I. Double Bottom (Steep)", "name_JP": "I. 二重底 (急勾配)", "locked": not IS_PRO, "type": "Custom"},
+    
     "J": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "J. 쌍바닥\n(상승전 시작점)", "name_EN": "J. Double Bottom (Start of Rise)", "name_JP": "J. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
+    
     "K": {"file": "급락후 연속 도지.jpg", "name_KR": "K. 급락후\n 연속 도지", "name_EN": "K. Doji after Plunge", "name_JP": "K. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
+    
     "L": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "L. 횡보, 급락후 바닥확인", "name_EN": "L. Bottom Check after Flat & Plunge", "name_JP": "L. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
+    
+    # [수정] M: fixed_period = 29 추가
     "M": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "M. 하락 횡보,\n 급락후 반등", "name_EN": "M. Bullish after Drop & Flat", "name_JP": "M. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom", "fixed_period": 29},
+    
     "N": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "N. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "N. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "N. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
     "O": {"file": "3중바닥.jpg", "name_KR": "O. 3중바닥", "name_EN": "O. Triple Bottom", "name_JP": "O. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
 }     
@@ -439,7 +445,7 @@ st.markdown(f"""
             padding: 5px 10px;
             border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            animation: fade-in-out 5s forwards;
+            animation: text-pulse 3s infinite; /* 깜빡임 유지 */
             pointer-events: none;
         }}
     }}
@@ -455,11 +461,10 @@ st.markdown(f"""
         100% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }}
     }}
     
-    @keyframes fade-in-out {{
-        0% {{ opacity: 0; transform: translateY(-10px); }}
-        10% {{ opacity: 1; transform: translateY(0); }}
-        90% {{ opacity: 1; }}
-        100% {{ opacity: 0; }}
+    @keyframes text-pulse {{
+        0% {{ opacity: 1; transform: scale(1); }}
+        50% {{ opacity: 0.8; transform: scale(1.02); }}
+        100% {{ opacity: 1; transform: scale(1); }}
     }}
     
     div.stButton > button {{
