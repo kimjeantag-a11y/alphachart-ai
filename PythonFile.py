@@ -346,7 +346,7 @@ debug_code = None
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
-# --- 🎯 [고정] 패턴 DB ---
+# --- 🎯 [고정] 패턴 DB (J 패턴 번역 수정, K/L/M 고정 등 유지) ---
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
@@ -377,7 +377,7 @@ if 'selected_key' not in st.session_state:
 def update_pattern(key):
     st.session_state.selected_key = key
 
-# 2. 디자인 시스템 (모바일 토글 강조 CSS 추가됨)
+# 2. 디자인 시스템 (모바일 토글 강조 + 헤더 Umlaut)
 theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
 bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
 
@@ -506,14 +506,14 @@ if IS_PRO:
     <div class="brand-container">
         <img src="{symbol_src}" class="symbol-img">
         <div style="font-size: 36px; font-weight: 900; color: white; letter-spacing: -1px;">AlphaChart AI <span class="pro-badge">PRO</span></div>
-        <div style="font-size: 15px; color: #fbbf24; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGANGER</div>
+        <div style="font-size: 15px; color: #fbbf24; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGÄNGER</div>
     </div>"""
 else:
     header_html = f"""
     <div class="brand-container">
         <img src="{FREE_SYMBOL_URL}" class="symbol-img">
         <div style="font-size: 36px; font-weight: 900; color: white; letter-spacing: -1px;">AlphaChart AI</div>
-        <div style="font-size: 15px; color: #38bdf8; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGANGER</div>
+        <div style="font-size: 15px; color: #38bdf8; font-weight: 700; letter-spacing: 3px; margin-bottom: 10px;">MEET YOUR CHART DOPPELGÄNGER</div>
     </div>"""
 st.markdown(header_html, unsafe_allow_html=True)
 
@@ -550,6 +550,7 @@ total_count = len(stock_data)
 
 with c_m2:
     if IS_PRO:
+        # [수정] step=100 설정
         limit_val = st.slider(t['limit_search'].format(total_count), 100, total_count, min(1000, total_count), step=100, label_visibility="collapsed")
         st.success(t['pro_active_msg'].format(limit_val))
     else:
