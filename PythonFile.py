@@ -79,10 +79,10 @@ TRANS = {
         "filter_detail": "🎯 상세 필터 설정 (눌러서 열기)",
         "filter_bullish": "마지막(최근) 캔들 양봉(상승)만 보기",
         "filter_doji": "마지막(최근) 캔들 도지(십자가)만 보기",
+        "filter_hammer": "마지막 캔들 양봉/도지이면서 아래꼬리 아주 긴 것(망치형)",
         "period_set_caption": "⏱️ 분석 기간 설정",
-        "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **{}일** 치 패턴을 자동 인식하여 분석합니다.",
+        "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **오늘부터 과거 {}일** 치 패턴을 자동 인식하여 분석합니다.",
         "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
-        # [KR] 가이드 HTML (요청하신 수정본 반영)
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             이 패턴들은 상승 지속형 6개, 하락에서 반등형 8개이며 하락 경직 또는 눌림목 상태이므로,<br>
@@ -104,22 +104,26 @@ TRANS = {
         "error_pro_only": "PRO 전용 패턴입니다. 업그레이드 후 이용해 주세요.",
         "error_no_file": "이미지를 분석할 수 없습니다. 파일을 확인해 주세요.",
         "scanning_msg": "최적의 도플갱어 종목을 스캔 중입니다... {}",
-        "result_title": "### 🏆 분석 결과 (총 {}개 발견)",
-        "no_result": "조건에 맞는 종목을 찾지 못했습니다.",
+        "result_title": "### 🏆 분석 결과 (80% 이상 일치: {}개)",
+        "no_result": "80% 이상 일치하는 종목을 찾지 못했습니다.",
         "chart_view": "📈 차트 보기",
         "pc_chart": "💻 PC용 차트",
         "mo_chart": "📱 모바일용 차트",
         "locked_msg": "🔒 TOP 6위 이후 결과 및 전종목 정밀 스캔은<br>PRO 버전 이용권 구매 시 확인 가능합니다.",
         "mission_html": """
         <div class="mission-box">
+            먼저, <span class="mission-highlight">AlphaChart의 미션</span>은 급등주, 대박주를 찾아 투자하도록 돕는 것이 아닙니다. 그런 차트들은 통계적으로 유의하지 않기 때문입니다.<br>
+            즉, 그동안의 급등주, 대박주들의 패턴이 일정하지 않아 성공률이 낮습니다.<br>
+            AlphaChart의 미션은 내일이나 모레 몇프로라도 상승할 확률이 높고 안전한 종목을 찾는 것입니다.<br>
+            안전하다는 것은, 상승 패턴에서는 <span class="mission-highlight">상승이 유지되는 상태</span>, 하락 패턴에서는 드디어 <span class="mission-highlight">상승으로 전환하기 직전</span>의 상태를 말합니다.<br><br>
             오랜 주식 거래의 경험과 반복을 통해, 캔들의 단순한 형태보다는 수거래일 동안의 <span class="mission-highlight">추세와 마지막 몇개의 캔들 형태를 함께 보는 것</span>이 중요하다는 사실이 수많은 연구자와 투자자들로부터 검증되어 왔습니다.<br><br>
-            이러한 과거의 패턴을 통한 미래의 패턴 예측, 그 중에서도 우리는 오늘까지의 차트를 보고 내일의 캔들 형태와 방향을 알고 싶습니다. 그래서, 일일이 상장된 모든 종목을 찾아서 내가 원하는 차트와 유사한 종목을 찾고, 증권사의 프로그램을 통해 원하는 그림을 그리거나 조건을 입력해서 검색해 왔죠. 그러나 무겁고 불편하고 부정확했습니다.<br><br>
+            이러한 과거의 패턴을 통한 단기의 패턴 예측, 그 중에서도 오늘까지의 차트를 보고 내일의 캔들 형태와 방향을 알고 싶습니다. 그래서, 일일이 상장된 모든 종목을 찾아서 내가 원하는 차트와 유사한 종목을 찾고, 증권사의 프로그램을 통해 원하는 그림을 그리거나 조건을 입력해서 검색해 왔죠. 그러나 무겁고 불편하고 부정확했습니다.<br><br>
             이제 <span class="mission-highlight">AlphaChart AI</span>가 몇 분만에 도플갱어 종목들을 찾아줄 수 있습니다.<br><br>
             또, 많은 시행착오를 통해 차트 매매의 대가들이 정립해 놓은 검증된 패턴들을 기본 장착하여, 사용자가 일일이 관심 차트를 찾아 업로드 하지 않아도, 내일이나 모레 매수 할 만한 종목 후보군을 찾을 수 있게 되었습니다.<br><br>
             차트 매매를 주로 하시는 데이 트레이더, 기업가치와 함께 차트를 같이 보시는 단중기 트레이더 모두 AlphaChart AI를 통해 불필요한 시간 낭비 없이, <span class="mission-highlight">투자의 성공확률을 극대화</span> 하시길 기원합니다.<br><br>
             세계인이 함께 쓰는 글로벌 서칭 시스템으로서 과부하를 막고 양질의 결과를 도출하기 위해, 부득이 무료버전은 기능을 제한하고 있습니다.<br>
             추후 서버 증설 등 투자 확대를 통해 무료 범위를 확대할 계획이니 너그러이 양해 부탁드립니다. <br><br>
-            계속해서 <span class="mission-highlight">혁신적인 인사이트</span>를 담은 방법들을 제시하겠습니다. 감사합니다.
+            앞으로, 위에서 매도해야 하는 패턴도 제공할 계획이며, 계속해서<span class="mission-highlight"> 혁신적인 인사이트</span>를 제시하겠습니다. 감사합니다.
         </div>"""
     },
     "EN": {
@@ -141,10 +145,10 @@ TRANS = {
         "filter_detail": "🎯 Advanced Filters (Click to expand)",
         "filter_bullish": "Last candle must be Bullish (Green/Red)",
         "filter_doji": "Last candle must be Doji (Cross)",
+        "filter_hammer": "Last candle Bullish/Doji with Very Long Lower Shadow (Hammer)",
         "period_set_caption": "⏱️ Analysis Period",
-        "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes **{} days** pattern.",
+        "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes the pattern of **past {} days from today**.",
         "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
-        # [EN] 가이드 HTML 번역
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             These patterns consist of 6 bullish continuation types and 8 reversal-from-bottom types. As they represent a state of consolidated decline or pullback,<br>
@@ -166,22 +170,26 @@ TRANS = {
         "error_pro_only": "This is a PRO pattern. Please upgrade to use.",
         "error_no_file": "Cannot analyze image. Please check the file.",
         "scanning_msg": "Scanning for optimal doppelgangers... {}",
-        "result_title": "### 🏆 Analysis Results (Found {} stocks)",
-        "no_result": "No stocks found matching criteria.",
+        "result_title": "### 🏆 Analysis Results (Found {} stocks > 80%)",
+        "no_result": "No stocks found with > 80% similarity.",
         "chart_view": "📈 View Chart",
         "pc_chart": "💻 PC Chart",
         "mo_chart": "📱 Mobile Chart",
         "locked_msg": "🔒 Results from Top 6 onwards & Full Scan<br>available upon purchasing PRO Pass.",
         "mission_html": """
         <div class="mission-box">
-            Through extensive experience and repetition in stock trading, countless researchers and investors have verified that it is more important to analyze the <span class="mission-highlight">trend over several trading days combined with the shape of the last few candles</span>, rather than just the simple shape of a single candle.<br><br>
-            Using these past patterns to predict future movements, we specifically aim to understand tomorrow's candle shape and direction based on the chart up to today. Previously, we had to manually search through all listed stocks to find similar charts, or use heavy and inaccurate PC software to draw patterns or input conditions. It was cumbersome, inconvenient, and inaccurate.<br><br>
+            First of all, <span class="mission-highlight">AlphaChart's mission</span> is not to help you find skyrocketing or jackpot stocks. This is because such charts are not statistically significant.<br>
+            In other words, the patterns of past jackpot stocks are inconsistent, resulting in a low success rate.<br>
+            AlphaChart's mission is to find safe stocks with a high probability of rising even a few percent tomorrow or the day after.<br>
+            Being safe means a state where <span class="mission-highlight">the rise is maintained</span> in an upward pattern, or a state <span class="mission-highlight">just before turning into a rise</span> in a downward pattern.<br><br>
+            Through extensive experience and repetition in stock trading, it has been verified by numerous researchers and investors that it is more important to look at the <span class="mission-highlight">trend over several trading days combined with the shape of the last few candles</span> rather than the simple shape of a single candle.<br><br>
+            Through predicting short-term patterns using these past patterns, we specifically want to know tomorrow's candle shape and direction based on the chart up to today. Previously, we had to manually search through all listed stocks to find similar charts, or use heavy and inaccurate PC programs to draw patterns or input conditions. However, it was heavy, inconvenient, and inaccurate.<br><br>
             Now, <span class="mission-highlight">AlphaChart AI</span> can find doppelganger stocks in just a few minutes.<br><br>
-            Furthermore, by equipping the system with verified patterns established by master traders through much trial and error, you can now find candidate stocks to buy tomorrow or the day after without needing to upload your own charts.<br><br>
-            We hope that both day traders and short-to-medium term traders who consider corporate value alongside charts will <span class="mission-highlight">maximize their probability of success</span> without unnecessary time waste through AlphaChart AI.<br><br>
-            As a global searching system used by people around the world, we inevitably limit the features of the free version to prevent server overload and ensure high-quality results.<br><br>
+            Also, by equipping verified patterns established by chart trading masters through many trials and errors, you can now find candidate stocks to buy tomorrow or the day after without uploading your own chart.<br><br>
+            We hope that both day traders and short-to-medium term traders who look at charts alongside corporate value will <span class="mission-highlight">maximize their success probability</span> without wasting unnecessary time through AlphaChart AI.<br><br>
+            As a global searching system used by people around the world, we inevitably limit the features of the free version to prevent server overload and ensure high-quality results.<br>
             We plan to expand the free scope through future investments such as server expansion, so we ask for your generous understanding.<br><br>
-            We will continue to provide methods containing <span class="mission-highlight">innovative insights</span>. Thank you.
+            We plan to provide patterns for selling at the top in the future, and we will continue to present <span class="mission-highlight">innovative insights</span>. Thank you.
         </div>"""
     },
     "JP": {
@@ -203,10 +211,10 @@ TRANS = {
         "filter_detail": "🎯 詳細フィルタ設定 (クリックして展開)",
         "filter_bullish": "直近ローソク足が「陽線」のみ",
         "filter_doji": "直近ローソク足が「十字線(同時線)」のみ",
+        "filter_hammer": "直近ローソク足が陽線/十字で下ヒゲが非常に長いもの (ハンマー)",
         "period_set_caption": "⏱️ 分析期間設定",
-        "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **{}日分** のパターンを自動認識して分析します。",
+        "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **今日から過去{}日分** のパターンを自動認識して分析します。",
         "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
-        # [JP] 가이드 HTML 번역
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             これらのパターンは上昇持続型6つ、下落からの反発型8つであり、下落硬直または押し目買いの状態にあるため、<br>
@@ -228,22 +236,26 @@ TRANS = {
         "error_pro_only": "PRO専用パターンです。アップグレードしてご利用ください。",
         "error_no_file": "画像を分析できません。ファイルを確認してください。",
         "scanning_msg": "最適なドッペルゲンガー銘柄をスキャン中... {}",
-        "result_title": "### 🏆 分析結果 (計 {}件 発見)",
-        "no_result": "条件に合う銘柄が見つかりませんでした。",
+        "result_title": "### 🏆 分析結果 (80%以上一致: {}件)",
+        "no_result": "80%以上一致する銘柄が見つかりませんでした。",
         "chart_view": "📈 チャートを見る",
         "pc_chart": "💻 PC用チャート",
         "mo_chart": "📱 モバイル用チャート",
         "locked_msg": "🔒 6位以降の結果および全銘柄スキャンは<br>PRO利用券の購入で確認可能です。",
         "mission_html": """
         <div class="mission-box">
+            まず、<span class="mission-highlight">AlphaChartのミッション</span>は、急騰株や大化け株を探して投資を助けることではありません。そのようなチャートは統計的に有意ではないためです。<br>
+            つまり、これまでの急騰株や大化け株のパターンは一定しておらず、成功率が低いのです。<br>
+            AlphaChartのミッションは、明日や明後日に数パーセントでも上昇する確率が高く、安全な銘柄を見つけることです。<br>
+            安全とは、上昇パターンでは<span class="mission-highlight">上昇が維持されている状態</span>、下落パターンではついに<span class="mission-highlight">上昇に転じる直前</span>の状態を指します。<br><br>
             長年の株式取引の経験と反復を通じて、単なるローソク足の形よりも、数取引日間の<span class="mission-highlight">トレンドと最後の数本のローソク足の形を共に見ること</span>が重要であるという事実が、数多くの研究者や投資家によって検証されてきました。<br><br>
-            このような過去のパターンを通じた未来のパターン予測、その中でも私たちは今日までのチャートを見て、明日のローソク足の形と方向を知りたいのです。これまでは、上場されている全銘柄から自分が望むチャートと類似した銘柄を手作業で探したり、証券会社の重いプログラムを使って絵を描いたり条件を入力して検索してきました。しかし、それは重くて不便で、不正確でした。<br><br>
+            このような過去のパターンを通じた短期パターン予測、その中でも私たちは今日までのチャートを見て、明日のローソク足の形と方向を知りたいのです。これまでは、上場されている全銘柄から自分が望むチャートと類似した銘柄を手作業で探したり、証券会社の重いプログラムを使って絵を描いたり条件を入力して検索してきました。しかし、それは重くて不便で、不正確でした。<br><br>
             今や<span class="mission-highlight">AlphaChart AI</span>が数分でドッペルゲンガー銘柄を見つけ出します。<br><br>
             また、多くの試行錯誤を経てチャート売買の大家たちが確立した検証済みのパターンを基本搭載しており、ユーザーがわざわざ関心のあるチャートを探してアップロードしなくても、明日や明後日に購入すべき銘柄候補群を見つけることができます。<br><br>
             チャート売買を主とするデイトレーダーの方も、企業価値と共にチャートを見るスイングトレーダーの方も、AlphaChart AIを通じて不必要な時間の浪費なく、<span class="mission-highlight">投資の成功確率を最大化</span>されることを祈念いたします。<br><br>
-            世界中の人々が共に使用するグローバルサーチングシステムとして、過負荷を防ぎ良質な結果を導き出すために、やむを得ず無料版は機能を制限しております。<br><br>
+            世界中の人々が共に使用するグローバルサーチングシステムとして、過負荷を防ぎ良質な結果を導き出すために、やむを得ず無料版は機能を制限しております。<br>
             今後、サーバー増設などの投資拡大を通じて無料範囲を拡大する計画ですので、何卒寛大なご理解をお願い申し上げます。<br><br>
-            引き続き<span class="mission-highlight">革新的なインサイト</span>を込めた方法を提示してまいります。ありがとうございます。
+            今後、高値で売却すべきパターンも提供する計画であり、引き続き<span class="mission-highlight">革新的なインサイト</span>を提示してまいります。ありがとうございます。
         </div>"""
     }
 }
@@ -332,20 +344,21 @@ FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
+# K 패턴: fixed_period = 13 (고정) 추가
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
-    "B": {"file": "급락후 바닥에서 양봉.jpg", "name_KR": "B. 급락후\n바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
-    "C": {"file": "큰하락 후 정배열 상승1파(컵위드핸들).jpg", "name_KR": "C. 큰하락 후\n정배열 상승1파\n(컵위드핸들)", "name_EN": "C. 1st Wave after Drop\n(Cup w/ Handle)", "name_JP": "C. 大暴落後の整列上昇1波\n(カップ・ウィズ・ハンドル)", "locked": False, "type": "Custom"},
-    "D": {"file": "큰하락 후 정배열 상승2파(컵위드핸들).jpg", "name_KR": "D. 큰하락 후\n정배열 상승2파\n(컵위드핸들)", "name_EN": "D. 2nd Wave after Drop\n(Cup w/ Handle)", "name_JP": "D. 大暴落後の整列上昇2波\n(カップ・ウィズ・ハンドル)", "locked": not IS_PRO, "type": "Custom"},
-    "E": {"file": "큰하락 후 정배열 상승3파(컵위드핸들).jpg", "name_KR": "E. 큰하락 후\n정배열 상승3파\n(컵위드핸들)", "name_EN": "E. 3rd Wave after Drop\n(Cup w/ Handle)", "name_JP": "E. 大暴落後の整列上昇3波\n(カップ・ウィズ・ハンドル)", "locked": not IS_PRO, "type": "Custom"},
+    "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
+    "C": {"file": "큰하락 후 정배열 상승1파(컵위드핸들).jpg", "name_KR": "C. 큰하락 후\n 정배열 상승1파\n(컵위드핸들)", "name_EN": "C. 1st Wave after Drop\n(Cup w/ Handle)", "name_JP": "C. 大暴落後の整列上昇1波\n(カップ・ウィズ・ハンドル)", "locked": False, "type": "Custom"},
+    "D": {"file": "큰하락 후 정배열 상승2파(컵위드핸들).jpg", "name_KR": "D. 큰하락 후\n 정배열 상승2파\n(컵위드핸들)", "name_EN": "D. 2nd Wave after Drop\n(Cup w/ Handle)", "name_JP": "D. 大暴落後の整列上昇2波\n(カップ・ウィズ・ハンドル)", "locked": not IS_PRO, "type": "Custom"},
+    "E": {"file": "큰하락 후 정배열 상승3파(컵위드핸들).jpg", "name_KR": "E. 큰하락 후\n 정배열 상승3파\n(컵위드핸들)", "name_EN": "E. 3rd Wave after Drop\n(Cup w/ Handle)", "name_JP": "E. 大暴落後の整列上昇3波\n(カップ・ウィズ・ハンドル)", "locked": not IS_PRO, "type": "Custom"},
     "F": {"file": "적당한 하락 후 정배열 상승(컵위드핸들2형).jpg", "name_KR": "F. 적당한 하락 후 정배열 상승\n(컵위드핸들2형)", "name_EN": "F. Rise after Mild Drop\n(Cup w/ Handle Type 2)", "name_JP": "F. 適度な下落後の整列上昇\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
     "G": {"file": "적당한 하락 후 정배열 상승2(컵위드핸들2형).jpg", "name_KR": "G. 적당한 하락 후 정배열 상승2\n(컵위드핸들2형)", "name_EN": "G. Rise after Mild Drop 2\n(Cup w/ Handle Type 2)", "name_JP": "G. 適度な下落後の整列上昇2\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
-    "H": {"file": "쌍바닥(단기간).jpg", "name_KR": "H. 쌍바닥\n(단기간)", "name_EN": "H. Double Bottom (Short-term)", "name_JP": "H. 二重底 (短期)", "locked": not IS_PRO, "type": "Custom"},
+    "H": {"file": "쌍바닥(단기간).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
     "I": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "I. 쌍바닥\n(상승전 시작점)", "name_EN": "I. Double Bottom (Start)", "name_JP": "I. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
-    "J": {"file": "급락후 연속 도지.jpg", "name_KR": "J. 급락후\n연속 도지", "name_EN": "J. Doji after Plunge", "name_JP": "J. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
-    "K": {"file": "횡보후 급락 및 연속도지.jpg", "name_KR": "K. 횡보후 급락 및 연속도지", "name_EN": "K. Plunge & Doji after Flat", "name_JP": "K. 横ばい後の急落・連続十字", "locked": not IS_PRO, "type": "Custom"},
-    "L": {"file": "하락 횡보, 급락후 양봉.jpg", "name_KR": "L. 하락 횡보,\n급락후 양봉", "name_EN": "L. Bullish after Drop & Flat", "name_JP": "L. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom"},
-    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "M. 장기횡보,\n급락후 바닥확인\n연속캔들", "name_EN": "M. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "M. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
+    "J": {"file": "급락후 연속 도지.jpg", "name_KR": "J. 급락후\n 연속 도지", "name_EN": "J. Doji after Plunge", "name_JP": "J. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
+    "K": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "K. 횡보, 급락후 바닥확인", "name_EN": "K. Bottom Check after Flat & Plunge", "name_JP": "K. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
+    "L": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "L. 하락 횡보,\n 급락후 반등", "name_EN": "L. Bullish after Drop & Flat", "name_JP": "L. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom"},
+    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "M. 장기횡보,\n 급락후 바닥확인\ n연속캔들", "name_EN": "M. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "M. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
     "N": {"file": "3중바닥.jpg", "name_KR": "N. 3중바닥", "name_EN": "N. Triple Bottom", "name_JP": "N. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
 }     
     
@@ -509,7 +522,8 @@ total_count = len(stock_data)
 
 with c_m2:
     if IS_PRO:
-        limit_val = st.slider(t['limit_search'].format(total_count), 10, total_count, min(1000, total_count), label_visibility="collapsed")
+        # [수정] step=100 설정
+        limit_val = st.slider(t['limit_search'].format(total_count), 100, total_count, min(1000, total_count), step=100, label_visibility="collapsed")
         st.success(t['pro_active_msg'].format(limit_val))
     else:
         limit_val = st.slider(t['limit_search_free'].format(total_count), 10, total_count, 300, disabled=True, label_visibility="collapsed")
@@ -520,12 +534,12 @@ with st.expander(t['filter_detail']):
     c_f1, c_f2 = st.columns(2)
     only_bullish = c_f1.checkbox(t['filter_bullish'], value=False)
     only_doji = c_f2.checkbox(t['filter_doji'], value=False)
+    only_hammer = st.checkbox(t['filter_hammer'], value=False)
     
     st.markdown("---")
     st.caption(t['period_set_caption'])
     
     cur_key = st.session_state.selected_key
-    # 언어에 맞는 이름 가져오기
     name_key = 'name_' + st.session_state.lang
     cur_name = RAW_PATTERN_DB[cur_key][name_key].replace('\n', ' ')
     if not IS_PRO and RAW_PATTERN_DB[cur_key]['locked']:
@@ -536,8 +550,6 @@ with st.expander(t['filter_detail']):
 
 # --- 💡 패턴 섹션 ---
 st.markdown(t['section1_title'], unsafe_allow_html=True)
-
-# [수정됨] guide_html 사용 (Language Pack에서 가져옴)
 st.markdown(t['guide_html'], unsafe_allow_html=True)
 
 # 패턴 버튼 그리기 (5개씩 3줄)
@@ -556,7 +568,6 @@ for i, key in enumerate(keys):
     
     with target_col:
         p = RAW_PATTERN_DB[key]
-        # 언어별 이름
         display_name = p['name_' + st.session_state.lang]
         if not IS_PRO and p['locked']:
             display_name = "🔒 " + display_name
@@ -584,6 +595,10 @@ else:
     sel_p_name = sel_p['name_' + st.session_state.lang].replace("\n", "") 
     sel_p_type = sel_p.get('type', 'Custom')
     sel_p_locked = sel_p['locked']
+    
+    # [K 패턴 고정 로직]
+    if 'fixed_period' in sel_p:
+        st.session_state.detected_period = sel_p['fixed_period']
 
 # --- 🧠 분석 엔진 ---
 def count_candles_engine(img):
@@ -659,7 +674,8 @@ def extract_features_engine(img_input, is_file_path=False):
         return res_p, img, candle_count
     except: return None
 
-def analyze_stock_legacy(code, name, user_p_norm, n_days=20, market_type="KRX", require_bullish=False, require_doji=False, pattern_type="Custom", force_include=False):
+# [수정됨] require_hammer 인자 추가 및 로직 구현 (Strict Version)
+def analyze_stock_legacy(code, name, user_p_norm, n_days=20, market_type="KRX", require_bullish=False, require_doji=False, require_hammer=False, pattern_type="Custom", force_include=False):
     try:
         df = fdr.DataReader(code).tail(n_days + 10)
         if len(df) < n_days: return None
@@ -678,6 +694,37 @@ def analyze_stock_legacy(code, name, user_p_norm, n_days=20, market_type="KRX", 
             if is_doji: filter_status = "Fail_Doji (도지)"
         if require_doji and not is_doji: filter_status = "Fail_NotDoji (도지아님)"
         
+        # [신규 로직] 망치형 필터 (양봉/도지 + 긴 아래꼬리) - Strict Version
+        if require_hammer:
+            is_bullish = last_close >= last_open
+            upper_shadow = last_high - max(last_open, last_close)
+            lower_shadow = min(last_open, last_close) - last_low
+            total_range = last_high - last_low
+
+            if not (is_bullish or is_doji):
+                filter_status = "Fail_Hammer_Shape"
+            # 1. 위꼬리가 거의 없어야 함 (아래꼬리가 위꼬리의 3배 이상)
+            elif lower_shadow < upper_shadow * 3.0:
+                filter_status = "Fail_Upper_Shadow_Too_Long"
+            else:
+                tail_condition = False
+                # 2. 몸통이 있는 경우: 아래꼬리가 몸통의 3배 이상 (아주 길어야 함)
+                if body_size > 0:
+                    if lower_shadow >= body_size * 3.0: tail_condition = True
+                # 3. 도지인 경우: 아래꼬리가 전체 길이의 70% 이상 (대부분이 아래꼬리여야 함)
+                elif total_range > 0:
+                    if lower_shadow >= total_range * 0.7: tail_condition = True
+                
+                # [추가] 몸통이 너무 크면 안됨 (장대봉 방지) - 전체 길이의 30% 이하
+                if total_range > 0 and (body_size / total_range) > 0.3:
+                    tail_condition = False
+
+                # [추가] 아래꼬리의 절대 비중이 60% 이상이어야 함 (안전장치)
+                if total_range > 0 and (lower_shadow / total_range) < 0.6:
+                    tail_condition = False
+                
+                if not tail_condition: filter_status = "Fail_Hammer_Tail_Length"
+
         if not force_include and filter_status != "Pass": return None
 
         df_t = df.tail(n_days); flow = df_t['Close'].values
@@ -713,13 +760,17 @@ with c_p2:
         
         if feat_data:
             _, _, detected_cnt = feat_data
+            # [수정] fixed_period가 있으면 그것을 우선 사용
+            if 'fixed_period' in sel_p:
+                detected_cnt = sel_p['fixed_period']
+                
             if st.session_state.detected_period != detected_cnt:
                 st.session_state.detected_period = detected_cnt
                 st.rerun()
 
     if feat_data:
         user_p, _, cnt = feat_data
-        st.markdown(f"""<div style="margin-top:10px; margin-bottom:5px;"><span class="info-tag">{t['ai_analysis_badge']}</span> {t['candles_detected'].format(cnt)} │ <b>{t['ai_pattern_shape']}</b></div>""", unsafe_allow_html=True)
+        st.markdown(f"""<div style="margin-top:10px; margin-bottom:5px;"><span class="info-tag">{t['ai_analysis_badge']}</span> {t['candles_detected'].format(st.session_state.detected_period)} │ <b>{t['ai_pattern_shape']}</b></div>""", unsafe_allow_html=True)
         
         user_p_norm = MinMaxScaler().fit_transform(user_p.reshape(-1, 1)).flatten()
         fig, ax = plt.subplots(figsize=(6, 1.5))
@@ -762,24 +813,26 @@ if st.button(button_label, type="primary", use_container_width=True):
         total_scan = len(target_stocks)
         
         with ThreadPoolExecutor(max_workers=30) as ex:
-            futures = [ex.submit(analyze_stock_legacy, s[0], s[1], user_p_norm, search_period, market_code, only_bullish, only_doji, sel_p_type, (s[0] == debug_code)) for s in target_stocks]
+            # [수정됨] only_hammer 인자 전달
+            futures = [ex.submit(analyze_stock_legacy, s[0], s[1], user_p_norm, search_period, market_code, only_bullish, only_doji, only_hammer, sel_p_type, (s[0] == debug_code)) for s in target_stocks]
             for idx, f in enumerate(as_completed(futures)):
                 res = f.result()
                 if res:
                     results.append(res)
                 progress_bar.progress((idx + 1) / total_scan)
         
+        # [수정] 80% 이상만 필터링
+        results = [r for r in results if r['sim'] >= 80.0]
         results.sort(key=lambda x: x['sim'], reverse=True)
         
         final_display_list = []
         if IS_PRO:
-            high_sim = [r for r in results if r['sim'] >= 80.0]
-            if len(high_sim) < 10: final_display_list = results[:10]
-            else: final_display_list = high_sim[:100]
+            if len(results) < 10: final_display_list = results
+            else: final_display_list = results[:100]
         else:
             final_display_list = results[:5]
 
-        st.markdown(t['result_title'].format(len(final_display_list)))
+        st.markdown(t['result_title'].format(len(results)))
         if not final_display_list: st.warning(t['no_result'])
         for i, res in enumerate(final_display_list):
             
