@@ -123,6 +123,7 @@ TRANS = {
             차트 매매를 주로 하시는 데이 트레이더, 기업가치와 함께 차트를 같이 보시는 단중기 트레이더 모두 AlphaChart AI를 통해 불필요한 시간 낭비 없이, <span class="mission-highlight">투자의 성공확률을 극대화</span> 하시길 기원합니다.<br><br>
             세계인이 함께 쓰는 글로벌 서칭 시스템으로서 과부하를 막고 양질의 결과를 도출하기 위해, 부득이 무료버전은 기능을 제한하고 있습니다.<br>
             추후 서버 증설 등 투자 확대를 통해 무료 범위를 확대할 계획이니 너그러이 양해 부탁드립니다. <br><br>
+            원하는 차트의 도플갱어가 어쩌면 매일 나오지는 않을 수도 있습니다. 하지만 성공률을 높이는 것이 중요하니 또 내일을 기다리면 됩니다.<br><br>
             앞으로, 위에서 매도해야 하는 패턴도 제공할 계획이며, 계속해서<span class="mission-highlight"> 혁신적인 인사이트</span>를 제시하겠습니다. 감사합니다.
         </div>"""
     },
@@ -189,6 +190,7 @@ TRANS = {
             We hope that both day traders and short-to-medium term traders who look at charts alongside corporate value will <span class="mission-highlight">maximize their success probability</span> without wasting unnecessary time through AlphaChart AI.<br><br>
             As a global searching system used by people around the world, we inevitably limit the features of the free version to prevent server overload and ensure high-quality results.<br>
             We plan to expand the free scope through future investments such as server expansion, so we ask for your generous understanding.<br><br>
+            A doppelganger of the chart you want may not appear every day. However, it is important to increase the success rate, so you can just wait for tomorrow.<br><br>
             We plan to provide patterns for selling at the top in the future, and we will continue to present <span class="mission-highlight">innovative insights</span>. Thank you.
         </div>"""
     },
@@ -255,6 +257,7 @@ TRANS = {
             チャート売買を主とするデイトレーダーの方も、企業価値と共にチャートを見るスイングトレーダーの方も、AlphaChart AIを通じて不必要な時間の浪費なく、<span class="mission-highlight">投資の成功確率を最大化</span>されることを祈念いたします。<br><br>
             世界中の人々が共に使用するグローバルサーチングシステムとして、過負荷を防ぎ良質な結果を導き出すために、やむを得ず無料版は機能を制限しております。<br>
             今後、サーバー増設などの投資拡大を通じて無料範囲を拡大する計画ですので、何卒寛大なご理解をお願い申し上げます。<br><br>
+            ご希望のチャートのドッペルゲンガーは、毎日現れるわけではないかもしれません。しかし、成功率を高めることが重要ですので、また明日を待てばよいのです。<br><br>
             今後、高値で売却すべきパターンも提供する計画であり、引き続き<span class="mission-highlight">革新的なインサイト</span>を提示してまいります。ありがとうございます。
         </div>"""
     }
@@ -344,7 +347,7 @@ FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
-# K 패턴: fixed_period = 13 (고정) 추가
+# K 패턴: fixed_period = 13 (고정)
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
@@ -353,12 +356,12 @@ RAW_PATTERN_DB = {
     "E": {"file": "큰하락 후 정배열 상승3파(컵위드핸들).jpg", "name_KR": "E. 큰하락 후\n 정배열 상승3파\n(컵위드핸들)", "name_EN": "E. 3rd Wave after Drop\n(Cup w/ Handle)", "name_JP": "E. 大暴落後の整列上昇3波\n(カップ・ウィズ・ハンドル)", "locked": not IS_PRO, "type": "Custom"},
     "F": {"file": "적당한 하락 후 정배열 상승(컵위드핸들2형).jpg", "name_KR": "F. 적당한 하락 후 정배열 상승\n(컵위드핸들2형)", "name_EN": "F. Rise after Mild Drop\n(Cup w/ Handle Type 2)", "name_JP": "F. 適度な下落後の整列上昇\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
     "G": {"file": "적당한 하락 후 정배열 상승2(컵위드핸들2형).jpg", "name_KR": "G. 적당한 하락 후 정배열 상승2\n(컵위드핸들2형)", "name_EN": "G. Rise after Mild Drop 2\n(Cup w/ Handle Type 2)", "name_JP": "G. 適度な下落後の整列上昇2\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
-    "H": {"file": "쌍바닥(단기간).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
+    "H": {"file": "쌍바닥(완만).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
     "I": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "I. 쌍바닥\n(상승전 시작점)", "name_EN": "I. Double Bottom (Start)", "name_JP": "I. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
     "J": {"file": "급락후 연속 도지.jpg", "name_KR": "J. 급락후\n 연속 도지", "name_EN": "J. Doji after Plunge", "name_JP": "J. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
     "K": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "K. 횡보, 급락후 바닥확인", "name_EN": "K. Bottom Check after Flat & Plunge", "name_JP": "K. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
     "L": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "L. 하락 횡보,\n 급락후 반등", "name_EN": "L. Bullish after Drop & Flat", "name_JP": "L. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom"},
-    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "M. 장기횡보,\n 급락후 바닥확인\ n연속캔들", "name_EN": "M. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "M. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
+    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "M. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "M. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "M. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
     "N": {"file": "3중바닥.jpg", "name_KR": "N. 3중바닥", "name_EN": "N. Triple Bottom", "name_JP": "N. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
 }     
     
