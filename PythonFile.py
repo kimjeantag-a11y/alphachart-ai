@@ -66,7 +66,6 @@ TRANS = {
         "license_info": "남은 기간: {}",
         "logout": "로그아웃 / 리셋",
         "current_free": "현재: 무료 버전 (Free)",
-        "upgrade_btn": "👑 PRO 업그레이드 (구매하기)",
         "license_input": "🔑 라이선스 키 입력",
         "confirm": "인증 확인",
         "cancel": "취소",
@@ -83,6 +82,13 @@ TRANS = {
         "period_set_caption": "⏱️ 분석 기간 설정",
         "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **오늘부터 과거 {}일** 치 패턴을 자동 인식하여 분석합니다.",
         "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
+        
+        # 버튼 텍스트 (KR)
+        "btn_sub_title": "💎 월 정기구독 (10% 할인가)",
+        "btn_sub_desc": "$175.5 /월 (자동연장)",
+        "btn_one_title": "🎫 1일 / 1개월 이용권 구매",
+        "btn_one_desc": "$13 (1일) / $195 (1개월)",
+
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             이 패턴들은 상승 지속형 6개, 하락에서 반등형 9개이며 하락 경직 또는 눌림목 상태이므로,<br>
@@ -133,7 +139,6 @@ TRANS = {
         "license_info": "Remaining: {}",
         "logout": "Logout / Reset",
         "current_free": "Current: Free Version",
-        "upgrade_btn": "👑 Upgrade to PRO (Buy Now)",
         "license_input": "🔑 Enter License Key",
         "confirm": "Verify",
         "cancel": "Cancel",
@@ -150,6 +155,13 @@ TRANS = {
         "period_set_caption": "⏱️ Analysis Period",
         "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes the pattern of **past {} days from today**.",
         "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
+        
+        # 버튼 텍스트 (EN)
+        "btn_sub_title": "💎 Monthly Subscription (10% OFF)",
+        "btn_sub_desc": "$175.5 /mo (Auto-renew)",
+        "btn_one_title": "🎫 1 Day / 1 Month Pass",
+        "btn_one_desc": "$13 (1 Day) / $195 (1 Month)",
+
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             These patterns consist of 6 bullish continuation types and 9 reversal-from-bottom types. As they represent a state of consolidated decline or pullback,<br>
@@ -200,7 +212,6 @@ TRANS = {
         "license_info": "残り期間: {}",
         "logout": "ログアウト / リセット",
         "current_free": "現在: 無料版 (Free)",
-        "upgrade_btn": "👑 PROにアップグレード (購入)",
         "license_input": "🔑 ライセンスキー入力",
         "confirm": "確認",
         "cancel": "キャンセル",
@@ -217,6 +228,13 @@ TRANS = {
         "period_set_caption": "⏱️ 分析期間設定",
         "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **今日から過去{}日分** のパターンを自動認識して分析します。",
         "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
+        
+        # 버튼 텍스트 (JP)
+        "btn_sub_title": "💎 月額定期購読 (10%割引)",
+        "btn_sub_desc": "$175.5 /月 (自動更新)",
+        "btn_one_title": "🎫 1日 / 1ヶ月利用券",
+        "btn_one_desc": "$13 (1日) / $195 (1ヶ月)",
+
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             これらのパターンは上昇持続型6つ、下落からの反発型9つであり、下落硬直または押し目買いの状態にあるため、<br>
@@ -303,9 +321,37 @@ with st.sidebar:
     else:
         st.info(t['current_free'])
         if not st.session_state.show_license_input:
-            # 🔗 Gumroad 구매 페이지 링크 (여기에 실제 Gumroad 주소를 넣으세요)
-            gumroad_link = "https://gumroad.com/l/YOUR_PRODUCT_LINK" 
-            st.markdown(f'<a href="{gumroad_link}" target="_blank" class="upgrade-pro-btn" style="text-align:center; margin-bottom:10px;">{t["upgrade_btn"]}</a>', unsafe_allow_html=True)
+            
+            # 👇 [1] 월 정기구독 링크 (Placeholder)
+            gumroad_sub_link = "https://gumroad.com/l/YOUR_SUB_LINK" 
+            
+            # 1. 정기구독 버튼 (황금색)
+            st.markdown(f"""
+            <a href="{gumroad_sub_link}" target="_blank" style="
+                display: block; text-align: center; text-decoration: none;
+                background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+                color: black; font-weight: 900; font-size: 18px;
+                padding: 12px; border-radius: 12px; margin-bottom: 8px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid white;">
+                {t['btn_sub_title']}<br>
+                <span style="font-size:14px; font-weight:normal;">{t['btn_sub_desc']}</span>
+            </a>
+            """, unsafe_allow_html=True)
+
+            # 👇 [2] 단건 구매 링크 (Placeholder)
+            gumroad_one_link = "https://gumroad.com/l/YOUR_ONETIME_LINK" 
+            
+            # 2. 단건 구매 버튼 (회색)
+            st.markdown(f"""
+            <a href="{gumroad_one_link}" target="_blank" style="
+                display: block; text-align: center; text-decoration: none;
+                background: #f1f5f9; color: #334155; font-weight: 700; font-size: 15px;
+                padding: 10px; border-radius: 10px; margin-bottom: 15px;
+                border: 1px solid #cbd5e1;">
+                {t['btn_one_title']}<br>
+                <span style="font-size:12px;">{t['btn_one_desc']}</span>
+            </a>
+            """, unsafe_allow_html=True)
             
             if st.button(t['license_input'], use_container_width=True):
                 st.session_state.show_license_input = True
@@ -346,7 +392,7 @@ debug_code = None
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
-# --- 🎯 [고정] 패턴 DB (H, L 수정 반영) ---
+# --- 🎯 [고정] 패턴 DB ---
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
@@ -365,7 +411,6 @@ RAW_PATTERN_DB = {
     
     "L": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "L. 횡보, 급락후 바닥확인", "name_EN": "L. Bottom Check after Flat & Plunge", "name_JP": "L. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
     
-    # [수정] M: fixed_period = 29 추가
     "M": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "M. 하락 횡보,\n 급락후 반등", "name_EN": "M. Bullish after Drop & Flat", "name_JP": "M. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom", "fixed_period": 29},
     
     "N": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "N. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "N. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "N. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
@@ -378,7 +423,7 @@ if 'selected_key' not in st.session_state:
 def update_pattern(key):
     st.session_state.selected_key = key
 
-# 2. 디자인 시스템 (모바일 토글 강력 강조 + 헤더 Umlaut)
+# 2. 디자인 시스템
 theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
 bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
 
