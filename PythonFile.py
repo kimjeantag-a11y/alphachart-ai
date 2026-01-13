@@ -473,7 +473,7 @@ if st.button(button_label, type="primary", use_container_width=True):
         if not final_display_list: st.warning(t['no_result'])
         for i, res in enumerate(final_display_list):
             if market_code == "KRX":
-                pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; mo_link = f"https://m.stock.naver.com/domestic/stock/{res['code']}/chart"
+                pc_link = f"https://finance.naver.com/item/fchart.naver?code={res['code']}"; mo_link = f"https://m.stock.naver.com/fchart/domestic/stock/{res['code']}/"
                 links_html = f'<div class="btn-row"><a href="{pc_link}" target="_blank" class="custom-btn btn-pc">{t["pc_chart"]}</a><a href="{mo_link}" target="_blank" class="custom-btn btn-mo">{t["mo_chart"]}</a></div>'
             elif market_code in ["NASDAQ", "NYSE"]:
                 link = f"https://www.tradingview.com/chart/?symbol={res['code']}"; links_html = f'<a href="{link}" target="_blank" class="custom-btn btn-global">{t["chart_view"]}</a>'
