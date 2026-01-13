@@ -346,7 +346,7 @@ debug_code = None
 FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-ai/main/candlestick_ai_symbol.png"
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
-# --- 🎯 [고정] 패턴 DB (J 패턴 번역 수정, K/L/M 고정 등 유지) ---
+# --- 🎯 [고정] 패턴 DB (H, L 수정 반영) ---
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
@@ -405,19 +405,32 @@ st.markdown(f"""
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
     }}
     
-    /* Mobile Sidebar Toggle Button Attention */
+    /* 사이드바 열기 버튼 강력 강조 */
     [data-testid="stSidebarCollapsedControl"] {{
         background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
         color: black !important;
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        animation: attention-pulse 2s infinite;
-        padding: 5px;
-        margin-top: 5px;
-        margin-left: 5px;
+        border: 2px solid white !important;
+        border-radius: 50% !important;
+        box-shadow: 0 4px 15px rgba(251, 191, 36, 0.6) !important;
+        animation: attention-pulse 2s infinite !important;
+        width: 3rem !important;
+        height: 3rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-top: 5px !important;
+        margin-left: 5px !important;
+        z-index: 999999 !important; /* 최상단 보장 */
     }}
     
+    /* 화살표 아이콘 색상 강제 변경 */
+    [data-testid="stSidebarCollapsedControl"] svg {{
+        fill: black !important;
+        stroke: black !important;
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }}
+
     @keyframes attention-pulse {{
         0% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }}
         70% {{ transform: scale(1.15); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }}
