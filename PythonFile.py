@@ -84,6 +84,8 @@ TRANS = {
         "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
         
         # 버튼 텍스트 (KR)
+        "btn_upgrade_view": "👑 PRO 업그레이드 옵션 보기",
+        "btn_close": "닫기",
         "btn_sub_title": "💎 월 정기구독 (10% 할인가)",
         "btn_sub_desc": "$175.5 /월 (자동연장)",
         "btn_one_title": "🎫 1일 / 1개월 이용권 구매",
@@ -157,6 +159,8 @@ TRANS = {
         "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
         
         # 버튼 텍스트 (EN)
+        "btn_upgrade_view": "👑 View PRO Upgrade Options",
+        "btn_close": "Close",
         "btn_sub_title": "💎 Monthly Subscription (10% OFF)",
         "btn_sub_desc": "$175.5 /mo (Auto-renew)",
         "btn_one_title": "🎫 1 Day / 1 Month Pass",
@@ -230,6 +234,8 @@ TRANS = {
         "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
         
         # 버튼 텍스트 (JP)
+        "btn_upgrade_view": "👑 PROアップグレードオプションを見る",
+        "btn_close": "閉じる",
         "btn_sub_title": "💎 月額定期購読 (10%割引)",
         "btn_sub_desc": "$175.5 /月 (自動更新)",
         "btn_one_title": "🎫 1日 / 1ヶ月利用券",
@@ -286,6 +292,8 @@ if 'is_pro' not in st.session_state:
     st.session_state.is_pro = False
 if 'show_license_input' not in st.session_state:
     st.session_state.show_license_input = False
+if 'show_pricing' not in st.session_state:
+    st.session_state.show_pricing = False
 if 'detected_period' not in st.session_state:
     st.session_state.detected_period = 20
 if 'lang' not in st.session_state:
@@ -317,42 +325,56 @@ with st.sidebar:
             st.session_state.is_pro = False
             st.session_state.show_license_input = False
             st.session_state.license_expiry_msg = ""
+            st.session_state.show_pricing = False
             st.rerun()
     else:
         st.info(t['current_free'])
         if not st.session_state.show_license_input:
             
-            # 👇 [1] 월 정기구독 링크 (Placeholder)
-            gumroad_sub_link = "https://gumroad.com/l/YOUR_SUB_LINK" 
-            
-            # 1. 정기구독 버튼 (황금색)
-            st.markdown(f"""
-            <a href="{gumroad_sub_link}" target="_blank" style="
-                display: block; text-align: center; text-decoration: none;
-                background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-                color: black; font-weight: 900; font-size: 18px;
-                padding: 12px; border-radius: 12px; margin-bottom: 8px;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid white;">
-                {t['btn_sub_title']}<br>
-                <span style="font-size:14px; font-weight:normal;">{t['btn_sub_desc']}</span>
-            </a>
-            """, unsafe_allow_html=True)
+            # [1] 가격 보기 버튼 (토글)
+            if not st.session_state.show_pricing:
+                if st.button(t['btn_upgrade_view'], type="primary", use_container_width=True):
+                    st.session_state.show_pricing = True
+                    st.rerun()
+            else:
+                # [2] 펼쳐진 가격 옵션들
+                # 👇 [실제 Gumroad 링크로 나중에 교체]
+                gumroad_sub_link = "https://gumroad.com/l/YOUR_SUB_LINK" 
+                gumroad_one_link = "https://gumroad.com/l/YOUR_ONETIME_LINK" 
+                
+                # 💎 정기구독 버튼
+                st.markdown(f"""
+                <a href="{gumroad_sub_link}" target="_blank" style="
+                    display: block; text-align: center; text-decoration: none;
+                    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+                    color: black; font-weight: 900; font-size: 18px;
+                    padding: 12px; border-radius: 12px; margin-bottom: 8px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid white;">
+                    {t['btn_sub_title']}<br>
+                    <span style="font-size:14px; font-weight:normal;">{t['btn_sub_desc']}</span>
+                </a>
+                """, unsafe_allow_html=True)
 
-            # 👇 [2] 단건 구매 링크 (Placeholder)
-            gumroad_one_link = "https://gumroad.com/l/YOUR_ONETIME_LINK" 
+                # 🎫 단건 구매 버튼
+                st.markdown(f"""
+                <a href="{gumroad_one_link}" target="_blank" style="
+                    display: block; text-align: center; text-decoration: none;
+                    background: #f1f5f9; color: #334155; font-weight: 700; font-size: 15px;
+                    padding: 10px; border-radius: 10px; margin-bottom: 15px;
+                    border: 1px solid #cbd5e1;">
+                    {t['btn_one_title']}<br>
+                    <span style="font-size:12px;">{t['btn_one_desc']}</span>
+                </a>
+                """, unsafe_allow_html=True)
+                
+                # 닫기 버튼
+                if st.button(t['btn_close'], use_container_width=True):
+                    st.session_state.show_pricing = False
+                    st.rerun()
             
-            # 2. 단건 구매 버튼 (회색)
-            st.markdown(f"""
-            <a href="{gumroad_one_link}" target="_blank" style="
-                display: block; text-align: center; text-decoration: none;
-                background: #f1f5f9; color: #334155; font-weight: 700; font-size: 15px;
-                padding: 10px; border-radius: 10px; margin-bottom: 15px;
-                border: 1px solid #cbd5e1;">
-                {t['btn_one_title']}<br>
-                <span style="font-size:12px;">{t['btn_one_desc']}</span>
-            </a>
-            """, unsafe_allow_html=True)
+            st.markdown("---")
             
+            # 라이선스 입력 버튼
             if st.button(t['license_input'], use_container_width=True):
                 st.session_state.show_license_input = True
                 st.rerun()
