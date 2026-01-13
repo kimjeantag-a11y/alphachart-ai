@@ -83,9 +83,10 @@ TRANS = {
         "period_set_caption": "⏱️ 분석 기간 설정",
         "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **오늘부터 과거 {}일** 치 패턴을 자동 인식하여 분석합니다.",
         "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
+        # [수정] 8개 -> 9개
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
-            이 패턴들은 상승 지속형 6개, 하락에서 반등형 8개이며 하락 경직 또는 눌림목 상태이므로,<br>
+            이 패턴들은 상승 지속형 6개, 하락에서 반등형 9개이며 하락 경직 또는 눌림목 상태이므로,<br>
             내일 또는 모레 매수해도 단타나 스윙으로 성공할 확률이 높은 대표적인 모델입니다.<br><br>
             단, 기업가치, 거래량, 뉴스, 공시 등 내재가치와 외부환경은 매매 전에 함께 고려해야 할 것입니다.<br><br>
             물론, 복잡한 내재와 외부를 고려하지 않고 그냥 매수해도 안전할 확률이 높은 편이지만,<br> 
@@ -150,9 +151,10 @@ TRANS = {
         "period_set_caption": "⏱️ Analysis Period",
         "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes the pattern of **past {} days from today**.",
         "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
+        # [수정] 8 -> 9 reversal-from-bottom types
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
-            These patterns consist of 6 bullish continuation types and 8 reversal-from-bottom types. As they represent a state of consolidated decline or pullback,<br>
+            These patterns consist of 6 bullish continuation types and 9 reversal-from-bottom types. As they represent a state of consolidated decline or pullback,<br>
             they are representative models with a high probability of success for day or swing trading, even if bought tomorrow or the day after.<br><br>
             However, intrinsic values and external environments such as corporate value, trading volume, news, and disclosures should be considered together before trading.<br><br>
             Of course, the probability of safety is high even if you buy without considering complex internal and external factors,<br>
@@ -217,9 +219,10 @@ TRANS = {
         "period_set_caption": "⏱️ 分析期間設定",
         "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **今日から過去{}日分** のパターンを自動認識して分析します。",
         "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
+        # [수정] 8 -> 9つ
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
-            これらのパターンは上昇持続型6つ、下落からの反発型8つであり、下落硬直または押し目買いの状態にあるため、<br>
+            これらのパターンは上昇持続型6つ、下落からの反発型9つであり、下落硬直または押し目買いの状態にあるため、<br>
             明日や明後日に購入してもデイトレやスイングトレードで成功する確率が高い代表的なモデルです。<br><br>
             ただし、企業価値、出来高、ニュース、開示情報などの本質的価値と外部環境は、売買前に併せて考慮する必要があります。<br><br>
             もちろん、複雑な内外要因を考慮せずに購入しても安全である確率は高い方ですが、<br>
@@ -347,7 +350,6 @@ FREE_SYMBOL_URL = "https://raw.githubusercontent.com/kimjeantag-a11y/alphachart-
 PRO_SYMBOL_FILE = "독수리 심볼.jfif"
 
 # --- 🎯 [고정] 패턴 DB ---
-# K 패턴: fixed_period = 13 (고정)
 RAW_PATTERN_DB = {
     "A": {"file": "장대양봉 허리 지지 상승.jpg", "name_KR": "A. 장대양봉 허리 지지 상승", "name_EN": "A. Long Bullish Support", "name_JP": "A. 大陽線の腰押し支持上昇", "locked": False, "type": "A"},
     "B": {"file": "급락후 바닥에서 반등.jpg", "name_KR": "B. 급락후\n 바닥에서 반등", "name_EN": "B. Rebound after Plunge", "name_JP": "B. 急落後の底値反発", "locked": False, "type": "B"}, 
@@ -357,12 +359,19 @@ RAW_PATTERN_DB = {
     "F": {"file": "적당한 하락 후 정배열 상승(컵위드핸들2형).jpg", "name_KR": "F. 적당한 하락 후 정배열 상승\n(컵위드핸들2형)", "name_EN": "F. Rise after Mild Drop\n(Cup w/ Handle Type 2)", "name_JP": "F. 適度な下落後の整列上昇\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
     "G": {"file": "적당한 하락 후 정배열 상승2(컵위드핸들2형).jpg", "name_KR": "G. 적당한 하락 후 정배열 상승2\n(컵위드핸들2형)", "name_EN": "G. Rise after Mild Drop 2\n(Cup w/ Handle Type 2)", "name_JP": "G. 適度な下落後の整列上昇2\n(カップ・ウィズ・ハンドル2型)", "locked": not IS_PRO, "type": "Custom"},
     "H": {"file": "쌍바닥(완만).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
-    "I": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "I. 쌍바닥\n(상승전 시작점)", "name_EN": "I. Double Bottom (Start)", "name_JP": "I. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
-    "J": {"file": "급락후 연속 도지.jpg", "name_KR": "J. 급락후\n 연속 도지", "name_EN": "J. Doji after Plunge", "name_JP": "J. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
-    "K": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "K. 횡보, 급락후 바닥확인", "name_EN": "K. Bottom Check after Flat & Plunge", "name_JP": "K. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
-    "L": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "L. 하락 횡보,\n 급락후 반등", "name_EN": "L. Bullish after Drop & Flat", "name_JP": "L. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom"},
-    "M": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "M. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "M. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "M. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
-    "N": {"file": "3중바닥.jpg", "name_KR": "N. 3중바닥", "name_EN": "N. Triple Bottom", "name_JP": "N. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
+    
+    "I": {"file": "쌍바닥(급경사).jpg", "name_KR": "I. 쌍바닥(급경사)", "name_EN": "I. Double Bottom (Steep)", "name_JP": "I. 二重底 (急勾配)", "locked": not IS_PRO, "type": "Custom"},
+    
+    "J": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "J. 쌍바닥\n(상승전 시작점)", "name_EN": "J. Double Bottom (Start of Rise)", "name_JP": "J. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
+    
+    "K": {"file": "급락후 연속 도지.jpg", "name_KR": "K. 급락후\n 연속 도지", "name_EN": "K. Doji after Plunge", "name_JP": "K. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
+    
+    "L": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "L. 횡보, 급락후 바닥확인", "name_EN": "L. Bottom Check after Flat & Plunge", "name_JP": "L. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
+    
+    "M": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "M. 하락 횡보,\n 급락후 반등", "name_EN": "M. Bullish after Drop & Flat", "name_JP": "M. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom", "fixed_period": 29},
+    
+    "N": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "N. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "N. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "N. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
+    "O": {"file": "3중바닥.jpg", "name_KR": "O. 3중바닥", "name_EN": "O. Triple Bottom", "name_JP": "O. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
 }     
     
 if 'selected_key' not in st.session_state:
@@ -599,7 +608,7 @@ else:
     sel_p_type = sel_p.get('type', 'Custom')
     sel_p_locked = sel_p['locked']
     
-    # [K 패턴 고정 로직]
+    # [K, L, M 패턴 고정 로직]
     if 'fixed_period' in sel_p:
         st.session_state.detected_period = sel_p['fixed_period']
 
