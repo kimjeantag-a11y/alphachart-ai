@@ -83,7 +83,6 @@ TRANS = {
         "period_set_caption": "⏱️ 분석 기간 설정",
         "period_info_fmt": "💠 **[{}]** 기준: AI가 차트에서 **오늘부터 과거 {}일** 치 패턴을 자동 인식하여 분석합니다.",
         "section1_title": "### 🧬 1. AlphaChart AI 에 기본 장착된 패턴 모델 선택 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(차트매매 대가들이 사용)</span>",
-        # [수정] 8개 -> 9개
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             이 패턴들은 상승 지속형 6개, 하락에서 반등형 9개이며 하락 경직 또는 눌림목 상태이므로,<br>
@@ -110,7 +109,7 @@ TRANS = {
         "chart_view": "📈 차트 보기",
         "pc_chart": "💻 PC용 차트",
         "mo_chart": "📱 모바일용 차트",
-        "locked_msg": "🔒 TOP 6위 이후 결과 및 전종목 정밀 스캔은<br>PRO 버전 이용권 구매 시 확인 가능합니다.",
+        "locked_msg": "🔒 TOP 6위 이후 결과 및 전종목 정밀 스캔은<br>PRO 버전에서 확인 가능합니다.",
         "mission_html": """
         <div class="mission-box">
             먼저, <span class="mission-highlight">AlphaChart의 미션</span>은 급등주, 대박주를 찾아 투자하도록 돕는 것이 아닙니다. 그런 차트들은 통계적으로 유의하지 않기 때문입니다.<br>
@@ -151,7 +150,6 @@ TRANS = {
         "period_set_caption": "⏱️ Analysis Period",
         "period_info_fmt": "💠 Based on **[{}]**: AI automatically detects and analyzes the pattern of **past {} days from today**.",
         "section1_title": "### 🧬 1. Select AI Built-in Patterns <span style='font-size:16px; color:#64748b; font-weight:normal;'>(Used by Master Traders)</span>",
-        # [수정] 8 -> 9 reversal-from-bottom types
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             These patterns consist of 6 bullish continuation types and 9 reversal-from-bottom types. As they represent a state of consolidated decline or pullback,<br>
@@ -178,7 +176,7 @@ TRANS = {
         "chart_view": "📈 View Chart",
         "pc_chart": "💻 PC Chart",
         "mo_chart": "📱 Mobile Chart",
-        "locked_msg": "🔒 Results from Top 6 onwards & Full Scan<br>available upon purchasing PRO Pass.",
+        "locked_msg": "🔒 Results from Top 6 onwards & Full Scan<br>available in PRO Version.",
         "mission_html": """
         <div class="mission-box">
             First of all, <span class="mission-highlight">AlphaChart's mission</span> is not to help you find skyrocketing or jackpot stocks. This is because such charts are not statistically significant.<br>
@@ -219,7 +217,6 @@ TRANS = {
         "period_set_caption": "⏱️ 分析期間設定",
         "period_info_fmt": "💠 **[{}]** 基準: AIがチャートから **今日から過去{}日分** のパターンを自動認識して分析します。",
         "section1_title": "### 🧬 1. AlphaChart AI 搭載のパターンモデルを選択 <span style='font-size:16px; color:#64748b; font-weight:normal;'>(チャート売買の大家たちが使用)</span>",
-        # [수정] 8 -> 9つ
         "guide_html": """
         <div style="background-color: #e8f4f8; padding: 15px; border-radius: 10px; line-height: 1.6; color: #333;">
             これらのパターンは上昇持続型6つ、下落からの反発型9つであり、下落硬直または押し目買いの状態にあるため、<br>
@@ -246,7 +243,7 @@ TRANS = {
         "chart_view": "📈 チャートを見る",
         "pc_chart": "💻 PC用チャート",
         "mo_chart": "📱 モバイル用チャート",
-        "locked_msg": "🔒 6位以降の結果および全銘柄スキャンは<br>PRO利用券の購入で確認可能です。",
+        "locked_msg": "🔒 6位以降の結果および全銘柄スキャンは<br>PROバージョンで確認可能です。",
         "mission_html": """
         <div class="mission-box">
             まず、<span class="mission-highlight">AlphaChartのミッション</span>は、急騰株や大化け株を探して投資を助けることではありません。そのようなチャートは統計的に有意ではないためです。<br>
@@ -380,7 +377,7 @@ if 'selected_key' not in st.session_state:
 def update_pattern(key):
     st.session_state.selected_key = key
 
-# 2. 디자인 시스템
+# 2. 디자인 시스템 (모바일 토글 강조 CSS 추가됨)
 theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
 bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
 
@@ -406,6 +403,25 @@ st.markdown(f"""
         border-radius: 24px; color: white; margin-bottom: 1.5rem;
         box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; margin-top: -60px;
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
+    }}
+    
+    /* Mobile Sidebar Toggle Button Attention */
+    [data-testid="stSidebarCollapsedControl"] {{
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+        color: black !important;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        animation: attention-pulse 2s infinite;
+        padding: 5px;
+        margin-top: 5px;
+        margin-left: 5px;
+    }}
+    
+    @keyframes attention-pulse {{
+        0% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }}
+        70% {{ transform: scale(1.15); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }}
+        100% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }}
     }}
     
     div.stButton > button {{
@@ -534,7 +550,6 @@ total_count = len(stock_data)
 
 with c_m2:
     if IS_PRO:
-        # [수정] step=100 설정
         limit_val = st.slider(t['limit_search'].format(total_count), 100, total_count, min(1000, total_count), step=100, label_visibility="collapsed")
         st.success(t['pro_active_msg'].format(limit_val))
     else:
