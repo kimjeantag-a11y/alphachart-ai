@@ -358,15 +358,10 @@ RAW_PATTERN_DB = {
     "H": {"file": "쌍바닥(완만).jpg", "name_KR": "H. 쌍바닥(완만)", "name_EN": "H. Double Bottom (Gentle)", "name_JP": "H. 二重底 (緩やか)", "locked": not IS_PRO, "type": "Custom"},
     
     "I": {"file": "쌍바닥(급경사).jpg", "name_KR": "I. 쌍바닥(급경사)", "name_EN": "I. Double Bottom (Steep)", "name_JP": "I. 二重底 (急勾配)", "locked": not IS_PRO, "type": "Custom"},
-    
     "J": {"file": "쌍바닥(상승전 시작점).jpg", "name_KR": "J. 쌍바닥\n(상승전 시작점)", "name_EN": "J. Double Bottom (Start of Rise)", "name_JP": "J. 二重底 (上昇開始点)", "locked": not IS_PRO, "type": "Custom"},
-    
     "K": {"file": "급락후 연속 도지.jpg", "name_KR": "K. 급락후\n 연속 도지", "name_EN": "K. Doji after Plunge", "name_JP": "K. 急落後の連続十字線", "locked": not IS_PRO, "type": "Custom"},
-    
     "L": {"file": "횡보, 급락후 바닥확인.jpg", "name_KR": "L. 횡보, 급락후 바닥확인", "name_EN": "L. Bottom Check after Flat & Plunge", "name_JP": "L. 横ばい・急落後の底値確認", "locked": not IS_PRO, "type": "Custom", "fixed_period": 13},
-    
     "M": {"file": "하락 횡보, 급락후 반등.jpg", "name_KR": "M. 하락 횡보,\n 급락후 반등", "name_EN": "M. Bullish after Drop & Flat", "name_JP": "M. 下落横ばい、急落後の陽線", "locked": not IS_PRO, "type": "Custom", "fixed_period": 29},
-    
     "N": {"file": "장기횡보, 급락후 바닥확인 연속캔들.jpg", "name_KR": "N. 장기횡보,\n 급락후 바닥확인\n 연속캔들", "name_EN": "N. Bottom Check Candles\nafter Long Flat & Plunge", "name_JP": "N. 長期横ばい、急落後の\n底値確認連続ローソク足", "locked": not IS_PRO, "type": "Custom"},
     "O": {"file": "3중바닥.jpg", "name_KR": "O. 3중바닥", "name_EN": "O. Triple Bottom", "name_JP": "O. 三重底 (トリプルボトム)", "locked": not IS_PRO, "type": "Custom"}
 }     
@@ -377,7 +372,7 @@ if 'selected_key' not in st.session_state:
 def update_pattern(key):
     st.session_state.selected_key = key
 
-# 2. 디자인 시스템 (모바일 토글 강조 + 헤더 Umlaut)
+# 2. 디자인 시스템 (모바일 토글 강력 강조 + 헤더 Umlaut)
 theme_color = "#fbbf24" if IS_PRO else "#38bdf8"
 bg_gradient = "linear-gradient(135deg, #1e293b 0%, #000000 100%)" if IS_PRO else "linear-gradient(135deg, #0f172a 0%, #334155 100%)"
 
@@ -405,36 +400,66 @@ st.markdown(f"""
         border: {'2px solid #fbbf24' if IS_PRO else 'none'};
     }}
     
-    /* 사이드바 열기 버튼 강력 강조 */
-    [data-testid="stSidebarCollapsedControl"] {{
-        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
-        color: black !important;
-        border: 2px solid white !important;
-        border-radius: 50% !important;
-        box-shadow: 0 4px 15px rgba(251, 191, 36, 0.6) !important;
-        animation: attention-pulse 2s infinite !important;
-        width: 3rem !important;
-        height: 3rem !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-top: 5px !important;
-        margin-left: 5px !important;
-        z-index: 999999 !important; /* 최상단 보장 */
+    /* 📱 모바일 사이드바 열기 버튼 강력 강조 (Nuclear Option) */
+    @media (max-width: 768px) {{
+        [data-testid="stSidebarCollapsedControl"] {{
+            background: linear-gradient(45deg, #FFD700, #FF8C00) !important;
+            border-radius: 50% !important;
+            border: 2px solid white !important;
+            width: 3.5rem !important; 
+            height: 3.5rem !important;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.9) !important;
+            top: 0.5rem !important;
+            left: 0.5rem !important;
+            animation: attention-pulse 1.5s infinite !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 999999 !important;
+        }}
+        
+        /* 내부 아이콘 강제 색상 변경 */
+        [data-testid="stSidebarCollapsedControl"] svg {{
+            fill: black !important;
+            stroke: black !important;
+            width: 2rem !important;
+            height: 2rem !important;
+        }}
+        
+        /* 👆 상단 안내 문구 (모바일 전용) */
+        .mobile-guide-text {{
+            position: fixed;
+            top: 1.2rem;
+            left: 4.5rem;
+            color: #b45309;
+            font-weight: 900;
+            font-size: 14px;
+            z-index: 999999;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: fade-in-out 5s forwards;
+            pointer-events: none;
+        }}
     }}
     
-    /* 화살표 아이콘 색상 강제 변경 */
-    [data-testid="stSidebarCollapsedControl"] svg {{
-        fill: black !important;
-        stroke: black !important;
-        width: 1.5rem !important;
-        height: 1.5rem !important;
+    /* PC에서는 안내 문구 숨김 */
+    @media (min-width: 769px) {{
+        .mobile-guide-text {{ display: none; }}
     }}
 
     @keyframes attention-pulse {{
         0% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }}
         70% {{ transform: scale(1.15); box-shadow: 0 0 0 15px rgba(251, 191, 36, 0); }}
         100% {{ transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }}
+    }}
+    
+    @keyframes fade-in-out {{
+        0% {{ opacity: 0; transform: translateY(-10px); }}
+        10% {{ opacity: 1; transform: translateY(0); }}
+        90% {{ opacity: 1; }}
+        100% {{ opacity: 0; }}
     }}
     
     div.stButton > button {{
@@ -504,6 +529,9 @@ st.markdown(f"""
     .info-tag {{ background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-right: 5px; }}
     </style>
 """, unsafe_allow_html=True)
+
+# 모바일 안내 문구 HTML 삽입
+st.markdown('<div class="mobile-guide-text">👈 설정(언어/결제) 메뉴 열기</div>', unsafe_allow_html=True)
 
 # 3. 로고 및 헤더
 def get_img_tag(path_or_url, is_local=False):
